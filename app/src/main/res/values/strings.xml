@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Overgrowth</string>
+    <string name="textawal">Kamu belum memiliki sebuah tanaman</string>
+    <string name="textmulai">Mulai</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="dialog_action_tambah_tanaman_lama">Unggah Foto Tanaman</string>
+    <string name="dialog_action_tambah_tanaman_baru">Mulai Menanam</string>
+</resources>
