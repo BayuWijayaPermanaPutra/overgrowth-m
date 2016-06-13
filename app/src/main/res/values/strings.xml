@@ -1,9 +1,18 @@
 <resources>
     <string name="app_name">Overgrowth</string>
-    <string name="textawal">Kamu belum memiliki sebuah tanaman</string>
-    <string name="textmulai">Mulai</string>
+    <string name="text_awal">Kamu belum memiliki sebuah tanaman</string>
+    <string name="text_mulai">Mulai</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="dialog_action_tambah_tanaman_lama">Unggah Foto Tanaman</string>
     <string name="dialog_action_tambah_tanaman_baru">Mulai Menanam</string>
+    <string name="text_atau">Atau</string>
+    <string name="text_pilih_tanaman">Pilih Tanaman</string>
+    <string name="text_pindai_tanaman">Pindai tanah yang akan ditanami</string>
+    <string name="text_rekomendasi">Rekomendasi</string>
+    <string name="text_sayuran_capital">SAYURAN</string>
+    <string name="text_buah_capital">BUAH</string>
+    <string name="text_hias_capital">HIAS</string>
+    <string name="text_unggah_foto_tanaman">Unggah Foto Tanaman</string>
+    <string name="text_mulai_menanam">Mulai Menanam</string>
 </resources>
