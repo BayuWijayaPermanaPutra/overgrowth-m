@@ -1,5 +1,6 @@
 package id.overgrowth;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import id.overgrowth.utility.AlertDialogManager;
 import id.overgrowth.utility.InternetCheck;
 import id.overgrowth.utility.SessionManager;
 
@@ -26,6 +28,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private SignInButton buttonSignIn;
     SessionManager session;
     Intent intent;
+    private ProgressDialog progressDialog;
+    private AlertDialogManager alert;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void inisialisasi(){
+        alert = new AlertDialogManager();
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -46,6 +51,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         buttonSignIn.setSize(SignInButton.SIZE_STANDARD);
         buttonSignIn.setScopes(gso.getScopeArray());
         session = new SessionManager(getBaseContext());
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Sign In");
+        progressDialog.setMessage("Loading..");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(true);
     }
 
     @Override
@@ -60,11 +70,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 if(InternetCheck.isNetworkConnected(LoginActivity.this)){
                     if (InternetCheck.isNetworkAvailable(LoginActivity.this)){
                         signIn();
+                        progressDialog.show();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Internet tidak bisa diakses!", Toast.LENGTH_LONG).show();
+
+                        alert.showAlertDialog(this,"Error","Internet tidak bisa diakses!");
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Mohon nyalakan paket data atau koneksi WiFi!", Toast.LENGTH_LONG).show();
+                    alert.showAlertDialog(this,"Error","Tidak terkoneksi ke Internet!\nMohon nyalakan paket data atau koneksi WiFi!");
                 }
 
                 break;
@@ -74,6 +86,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
     @Override
@@ -88,6 +101,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
+            progressDialog.dismiss();
             GoogleSignInAccount akun = result.getSignInAccount();;
             String id = akun.getId();
             String nama = akun.getDisplayName();
@@ -101,15 +115,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(getApplicationContext(),"UrlFoto "+urlAvatar, Toast.LENGTH_SHORT).show();
 
             session.createLoginSession(id, nama, email, urlAvatar);
-            
+
             if(session.isLoggedIn()) {
                 finishLogin();
             }
         }
     }
     private void finishLogin() {
-        SharedPreferences preferences = getSharedPreferences("login_preferences", MODE_PRIVATE);
-        preferences.edit().putBoolean("login_complete",true).apply();
         intent = new Intent(getBaseContext(),MainActivity.class);
         startActivity(intent);
         finish();

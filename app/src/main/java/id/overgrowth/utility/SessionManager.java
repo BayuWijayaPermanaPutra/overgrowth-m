@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import java.util.HashMap;
 
+import id.overgrowth.LoginActivity;
 import id.overgrowth.MainActivity;
 
 /**
@@ -28,7 +29,7 @@ public class SessionManager {
 
     public static final String KEY_EMAILUSER = "emailuser";
 
-    public static final String KEY_URL_USER = "urlUser";
+    public static final String KEY_URL_FOTO_USER = "urlUser";
 
     public SessionManager(Context context) {
         mContext = context;
@@ -41,7 +42,7 @@ public class SessionManager {
         editor.putString(KEY_IDUSER, idUser);
         editor.putString(KEY_NAMAUSER, nama);
         editor.putString(KEY_EMAILUSER, email);
-        editor.putString(KEY_URL_USER, urlUser);
+        editor.putString(KEY_URL_FOTO_USER, urlUser);
         editor.commit();
     }
 
@@ -49,7 +50,7 @@ public class SessionManager {
         editor.putString(KEY_IDUSER,idUser);
         editor.putString(KEY_NAMAUSER,nama);
         editor.putString(KEY_EMAILUSER,email);
-        editor.putString(KEY_URL_USER,urlUser);
+        editor.putString(KEY_URL_FOTO_USER,urlUser);
         editor.commit();
     }
 
@@ -57,7 +58,7 @@ public class SessionManager {
         editor.clear();
         editor.commit();
 
-        Intent i = new Intent(mContext, MainActivity.class);
+        Intent i = new Intent(mContext, LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -69,7 +70,7 @@ public class SessionManager {
         user.put(KEY_IDUSER, pref.getString(KEY_IDUSER, null));
         user.put(KEY_NAMAUSER, pref.getString(KEY_NAMAUSER, null));
         user.put(KEY_EMAILUSER, pref.getString(KEY_EMAILUSER, null));
-        user.put(KEY_URL_USER, pref.getString(KEY_URL_USER,null));
+        user.put(KEY_URL_FOTO_USER, pref.getString(KEY_URL_FOTO_USER,null));
         return user;
     }
 

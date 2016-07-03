@@ -18,27 +18,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+
 import id.overgrowth.adapter.AdArrayWithIcon;
+import id.overgrowth.utility.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     DrawerLayout drawer;
     NavigationView navigationView;
     Toolbar mToolbar;
     Button buttonMulai;
-
+    private SessionManager session;
+    private HashMap<String, String> user;
+    private ImageView fotoUser;
+    private TextView namaUser;
+    private TextView emailUser;
+    private TextView logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences preferences = getSharedPreferences("login_preferences", MODE_PRIVATE);
-        if(!preferences.getBoolean("login_complete",false)){
+        initView();
+        if(!session.isLoggedIn()){
             Intent login = new Intent(this, LoginActivity.class);
             startActivity(login);
 
@@ -46,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        initView();
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -65,6 +75,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         View header = LayoutInflater.from(this).inflate(R.layout.nav_header,null);
         navigationView.addHeaderView(header);
 
+        if (session.isLoggedIn()){
+            user = session.getUserDetails();
+            fotoUser = (ImageView) findViewById(R.id.image_foto_header);
+            emailUser = (TextView) findViewById(R.id.txt_email_header);
+            namaUser = (TextView) findViewById(R.id.txt_nama_header);
+            logout = (TextView) findViewById(R.id.txt_button_logout_header);
+
+            Picasso.with(getBaseContext()).load(user.get(SessionManager.KEY_URL_FOTO_USER)).into(fotoUser);
+            namaUser.setText(user.get(SessionManager.KEY_NAMAUSER));
+            emailUser.setText(user.get(SessionManager.KEY_EMAILUSER));
+            logout.setOnClickListener(this);
+        }
         //button popup window
         buttonMulai.setOnClickListener(this);
 
@@ -74,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         buttonMulai = (Button) findViewById(R.id.button_mulai);
+
+        session = new SessionManager(this);
     }
 
     @Override
@@ -89,9 +113,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.button_mulai) {
-            setDialogPopUp();
+        switch (view.getId()) {
+            case R.id.button_mulai : setDialogPopUp();
+                break;
+            case R.id.txt_button_logout_header : logoutUserAccount();
+                break;
+            default: break;
         }
+    }
+
+    private void logoutUserAccount() {
+        session.logoutUser();
     }
 
     private void setDialogPopUp() {

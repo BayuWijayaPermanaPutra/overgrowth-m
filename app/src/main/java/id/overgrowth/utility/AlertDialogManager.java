@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 import id.overgrowth.R;
 
 /**
- * Created by bayu_ on 5/26/2016.
+ * Created by bayu_wpp on 5/26/2016.
  */
 public class AlertDialogManager {
     public void showAlertDialog(Context context, String title, String message) {
