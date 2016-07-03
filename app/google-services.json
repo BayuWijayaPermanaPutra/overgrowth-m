@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "771219402955",
+    "project_id": "overgrowth-1348"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771219402955:android:54c0b09f9c0dea43",
+        "android_client_info": {
+          "package_name": "id.overgrowth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771219402955-cqpje5krql6pi4l499k7nk717lh3g83f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.overgrowth",
+            "certificate_hash": "D1114E80F16AC2BA5212105412F08B154849D417"
+          }
+        },
+        {
+          "client_id": "771219402955-dv1qd33b82m85lmit9kn9b6lfnc21lq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVBZD0OlAP0xQl_-xuIJYXkqnwRYf20Hw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

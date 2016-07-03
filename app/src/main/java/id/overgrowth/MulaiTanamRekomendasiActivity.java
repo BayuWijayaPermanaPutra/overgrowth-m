@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.LinkedList;
@@ -22,12 +24,13 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
     private RecyclerView rvTanaman;
     private AdTanamanRekomendasi adapter;
     private FloatingActionButton fab_info_tanah;
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mulai_tanam_rekomendasi);
         initView();
+        setToolbar();
         rvTanaman.setLayoutManager(new LinearLayoutManager(this.getBaseContext()));
         adapter = new AdTanamanRekomendasi(tanamanArrayList,this);
         rvTanaman.setAdapter(adapter);
@@ -46,13 +49,30 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
     }
 
     private void initView(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         rvTanaman = (RecyclerView) findViewById(R.id.recyclerview_rekomendasitanaman);
         fab_info_tanah = (FloatingActionButton) findViewById(R.id.fab_info_tanah);
     }
+    private void setToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Mulai Tanam");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public void dataDummy() {
-        tanamanArrayList.addLast(new MTanaman(1,"Chinese Evergreen","Chinese Evergreen","Nama latinnya","Sayuran",8,400,"chinese-evergreen.png"));
-        tanamanArrayList.addLast(new MTanaman(2,"Aloevera","Aloevera","Nama latinnya","Hias",8,350,"aloevera.png"));
-        tanamanArrayList.addLast(new MTanaman(3,"Aloevera","Aleovera","Nama latinnya","Hias",8,350,"aloevera.png"));
+        tanamanArrayList.addLast(new MTanaman(1,"Chinese Evergreen","Sayuran","2016-15-2016","2","chinese-evergreen.png","Kemarau"));
+        tanamanArrayList.addLast(new MTanaman(2,"Aloevera","Hias","2016-15-2016","2","chinese-evergreen.png","Kemarau"));
+        tanamanArrayList.addLast(new MTanaman(3,"Aloevera","Hias","2016-15-2016","2","chinese-evergreen.png","Kemarau"));
     }
 }

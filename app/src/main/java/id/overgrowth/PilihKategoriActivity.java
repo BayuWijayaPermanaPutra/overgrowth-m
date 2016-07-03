@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 public class PilihKategoriActivity extends AppCompatActivity implements View.OnClickListener {
     private Toolbar toolbar;
@@ -41,18 +40,15 @@ public class PilihKategoriActivity extends AppCompatActivity implements View.OnC
         Intent intent;
         switch (view.getId()) {
             case R.id.rl_kategori_sayuran :
-                Toast.makeText(PilihKategoriActivity.this,"Sayuran",Toast.LENGTH_SHORT).show();
-                intent = new Intent(PilihKategoriActivity.this, KategoriSayuranActivity.class);
+                intent = new Intent(PilihKategoriActivity.this, ListTanamanActivity.class);
                 startActivity(intent);
                 break;
             case R.id.rl_kategori_buah :
-                Toast.makeText(PilihKategoriActivity.this,"Buah",Toast.LENGTH_SHORT).show();
-                intent = new Intent(PilihKategoriActivity.this, KategoriBuahActivity.class);
+                intent = new Intent(PilihKategoriActivity.this, ListTanamanActivity.class);
                 startActivity(intent);
                 break;
             case R.id.rl_kategori_hias :
-                Toast.makeText(PilihKategoriActivity.this,"Hias",Toast.LENGTH_SHORT).show();
-                intent = new Intent(PilihKategoriActivity.this, KategoriHiasActivity.class);
+                intent = new Intent(PilihKategoriActivity.this, ListTanamanActivity.class);
                 startActivity(intent);
                 break;
         }

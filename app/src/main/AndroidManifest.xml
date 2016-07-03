@@ -3,6 +3,9 @@
     package="id.overgrowth">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -21,11 +24,9 @@
         <activity android:name=".MulaiTanamPilihanActivity" />
         <activity android:name=".MulaiTanamRekomendasiActivity" />
         <activity android:name=".PilihKategoriActivity" />
-        <activity android:name=".KategoriSayuranActivity" />
-        <activity android:name=".KategoriBuahActivity" />
-        <activity android:name=".KategoriHiasActivity" />
-        <activity android:name=".DetailPilihTanamanActivity" />
-        <activity android:name=".PopupDialogMulaiTanamActivity"></activity>
+        <activity android:name=".ListTanamanActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".DetailTanamanPilihActivity"></activity>
     </application>
 
 </manifest>
