@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,19 +18,34 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import id.overgrowth.utility.AlertDialogManager;
 import id.overgrowth.utility.InternetCheck;
+import id.overgrowth.utility.OkHttpRequest;
 import id.overgrowth.utility.SessionManager;
+import id.overgrowth.utility.UrlApi;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     private static final int RC_SIGN_IN = 1;
     GoogleSignInOptions gso;
     GoogleApiClient mGoogleApiClient;
     private SignInButton buttonSignIn;
+    private String id_user,email,nama,url_foto;
     SessionManager session;
     Intent intent;
     private ProgressDialog progressDialog;
     private AlertDialogManager alert;
+    private RequestBody requestBody;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +102,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
     }
 
     @Override
@@ -101,20 +116,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            progressDialog.dismiss();
+
             GoogleSignInAccount akun = result.getSignInAccount();;
-            String id = akun.getId();
-            String nama = akun.getDisplayName();
-            String email = akun.getEmail();
+            id_user = akun.getId();
+            nama = akun.getDisplayName();
+            email = akun.getEmail();
 
             Uri urlFoto = akun.getPhotoUrl();
-            String urlAvatar = String.valueOf(urlFoto);
+            url_foto = String.valueOf(urlFoto);
 
-            Toast.makeText(getApplicationContext(),"ID "+id, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(),"Welcome "+nama, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(),"UrlFoto "+urlAvatar, Toast.LENGTH_SHORT).show();
-
-            session.createLoginSession(id, nama, email, urlAvatar);
+            session.createLoginSession(id_user, nama, email, url_foto);
 
             if(session.isLoggedIn()) {
                 finishLogin();
@@ -122,8 +133,55 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
     private void finishLogin() {
-        intent = new Intent(getBaseContext(),MainActivity.class);
-        startActivity(intent);
-        finish();
+        Log.i("NamaUser:",nama);
+        Log.i("IDUser:",id_user);
+        Log.i("EmailUser",email);
+        Log.i("URLfotoUser:",url_foto);
+        requestBody = new FormBody.Builder()
+                .add("id_user", id_user)
+                .add("email", email)
+                .add("nama", nama)
+                .add("url_foto", url_foto)
+                .build();
+
+        try {
+            OkHttpRequest.postDataToServer(UrlApi.urlRegistrasi,requestBody).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e("Error : ", e.getMessage());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String message = "";
+                    int statusCode = 0;
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        message = jsonObject.getString("message");
+                        statusCode = jsonObject.getInt("statusCode");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    final String finalMessage = message;
+                    final int finalStatusCode = statusCode;
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            alert.showAlertDialog(LoginActivity.this,"Pesan",finalMessage);
+                            if(finalStatusCode == 200) {
+                                progressDialog.dismiss();
+                                intent = new Intent(getBaseContext(),MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

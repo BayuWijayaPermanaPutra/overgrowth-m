@@ -10,7 +10,7 @@ import android.view.View;
 import id.overgrowth.R;
 
 /**
- * Created by bayu_ on 5/24/2016.
+ * Created by bayu_wpp on 5/24/2016.
  */
 public class DividerItem extends RecyclerView.ItemDecoration {
     private Drawable mDivider;

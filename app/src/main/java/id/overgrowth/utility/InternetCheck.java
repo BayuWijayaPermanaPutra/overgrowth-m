@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 import java.net.InetAddress;
 
 /**
- * Created by bayu_ on 6/26/2016.
+ * Created by bayu_wpp on 6/26/2016.
  */
 public class InternetCheck {
 
