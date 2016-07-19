@@ -13,6 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/colorPrimary"
+
         >
         <TextView
             android:id="@+id/text_pindai_mulai"
@@ -21,8 +22,17 @@
             android:textColor="@color/white"
             android:textAlignment="center"
             android:text="@string/text_pindai_tanaman"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="20dp"
+            />
+        <TextView
+            android:id="@+id/text_coming_soon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/text_pindai_mulai"
+            android:text="@string/text_cooming_soon"
+            android:textColor="@color/white"
+            android:textAlignment="center"
             />
     </RelativeLayout>
     <FrameLayout

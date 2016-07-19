@@ -1,5 +1,7 @@
 package id.overgrowth;
 
+import android.app.ProgressDialog;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,53 +9,94 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
-import java.util.LinkedList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 import id.overgrowth.adapter.AdTanamanRekomendasi;
 import id.overgrowth.model.MTanah;
 import id.overgrowth.model.MTanaman;
-import id.overgrowth.utility.DividerItem;
 import id.overgrowth.utility.AlertDialogManager;
+import id.overgrowth.utility.DividerItem;
+import id.overgrowth.utility.OkHttpRequest;
+import id.overgrowth.utility.RemoteWeatherFetch;
+import id.overgrowth.utility.SessionManager;
+import id.overgrowth.utility.UrlApi;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
-    private LinkedList<MTanaman> tanamanArrayList = new LinkedList<>();
+    private ArrayList<MTanaman> tanamanList = new ArrayList<>();
     AlertDialogManager adm = new AlertDialogManager();
     private RecyclerView rvTanaman;
     private AdTanamanRekomendasi adapter;
     private FloatingActionButton fab_info_tanah;
-    Toolbar toolbar;
+    private Toolbar toolbar;
+    private Handler handler;
+    private Double suhu;
+    private String cuaca;
+    private RequestBody requestBody;
+    private ProgressDialog progressDialog;
+    private AlertDialogManager alert;
+    private SessionManager session;
+    private HashMap<String, String> user;
+    private String idUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mulai_tanam_rekomendasi);
         initView();
         setToolbar();
-        rvTanaman.setLayoutManager(new LinearLayoutManager(this.getBaseContext()));
-        adapter = new AdTanamanRekomendasi(tanamanArrayList,this);
-        rvTanaman.setAdapter(adapter);
-        rvTanaman.setItemAnimator(new DefaultItemAnimator());
-        rvTanaman.setHasFixedSize(true);
-        rvTanaman.addItemDecoration(new DividerItem(this));
-        dataDummy();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Rekomendasi Tanaman berdasarkan Suhu Cuaca");
+        progressDialog.setMessage("Loading..");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
 
         fab_info_tanah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MTanah mTanah = new MTanah(1,"Tanah Regosol","Tanah regosol, adalah tanah dengan ciri-ciri antara lain: kasar, teksturnya berbutir, warna sedikit abu-abu hingga kekuningan, mengandung bahan organik dalam jumlah yang sedikit.");
+                MTanah mTanah = new MTanah(1,"Info Tanah","Coming Soon on the Next Updates");
                 adm.showAlertDialog(MulaiTanamRekomendasiActivity.this,mTanah.getNama_tanah(),mTanah.getDeskripsi_tanah());
             }
         });
+
+        //updateWeatherData();
+        if (session.isLoggedIn()){
+            user = session.getUserDetails();
+            idUser = user.get(SessionManager.KEY_IDUSER);
+            cuaca = "Hujan";
+            progressDialog.show();
+            getTanamanRekomendasi();
+        }
+
     }
 
-    private void initView(){
+    private void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         rvTanaman = (RecyclerView) findViewById(R.id.recyclerview_rekomendasitanaman);
         fab_info_tanah = (FloatingActionButton) findViewById(R.id.fab_info_tanah);
+        alert = new AlertDialogManager();
+        session = new SessionManager(getBaseContext());
+
     }
-    private void setToolbar(){
+
+    private void setToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Mulai Tanam");
@@ -71,8 +114,142 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
     }
 
     public void dataDummy() {
-        tanamanArrayList.addLast(new MTanaman(1,"Chinese Evergreen","Sayuran","2016-15-2016","2","chinese-evergreen.png","Kemarau"));
-        tanamanArrayList.addLast(new MTanaman(2,"Aloevera","Hias","2016-15-2016","2","chinese-evergreen.png","Kemarau"));
-        tanamanArrayList.addLast(new MTanaman(3,"Aloevera","Hias","2016-15-2016","2","chinese-evergreen.png","Kemarau"));
+        tanamanList.add(new MTanaman(1,"Chinese Evergreen","Sayuran","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        tanamanList.add(new MTanaman(2,"Aloevera","Hias","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        tanamanList.add(new MTanaman(3,"Aloevera","Hias","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
     }
+
+    private void getTanamanRekomendasi() {
+        Log.i("iduser:",idUser);
+        Log.i("cuaca:",cuaca);
+
+        requestBody = new FormBody.Builder()
+                .add("id_user", idUser)
+                .add("cuaca_musim_saat_ini", cuaca)
+                .build();
+
+        try {
+            OkHttpRequest.postDataToServer(UrlApi.urlRekomendasiTanaman, requestBody).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e("Error : ", e.getMessage());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    int statusCode;
+                    try {
+                        Log.i("getdatanews", "response success");
+
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        statusCode = jsonObject.getInt("statusCode");
+                        Log.i("getdatanews", String.valueOf(statusCode));
+                        if (statusCode == 200) {
+                            JSONArray jsonArray = jsonObject.getJSONArray("item");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jObject = jsonArray.getJSONObject(i);
+                                MTanaman mTanaman = new MTanaman();
+                                Log.i("getdatanews", jObject.getString("nama_tanaman"));
+                                mTanaman.setIdtanaman(jObject.getInt("id_tanaman"));
+                                mTanaman.setNamatanaman(jObject.getString("nama_tanaman"));
+                                mTanaman.setJenistanaman(jObject.getString("jenis_tanaman"));
+                                mTanaman.setAwalpanen(jObject.getString("awal_panen"));
+                                mTanaman.setLamapanen(jObject.getString("lama_panen"));
+                                mTanaman.setDeskripsi(jObject.getString("deskripsi"));
+                                mTanaman.setFototanaman(jObject.getString("foto_tanaman"));
+                                mTanaman.setCocokdimusim(jObject.getString("cocokdimusim"));
+                                tanamanList.add(mTanaman);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    MulaiTanamRekomendasiActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            rvTanaman.setLayoutManager(new LinearLayoutManager(MulaiTanamRekomendasiActivity.this));
+                            adapter = new AdTanamanRekomendasi(tanamanList,MulaiTanamRekomendasiActivity.this);
+                            rvTanaman.setAdapter(adapter);
+                            rvTanaman.setHasFixedSize(true);
+                            rvTanaman.setItemAnimator(new DefaultItemAnimator());
+                            rvTanaman.addItemDecoration(new DividerItem(MulaiTanamRekomendasiActivity.this));
+                        }
+                    });
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateWeatherData(){
+        new Thread(){
+            public void run(){
+                final JSONObject json = RemoteWeatherFetch.getJSON(MulaiTanamRekomendasiActivity.this);
+                if(json == null){
+                    handler.post(new Runnable(){
+                        public void run(){
+                            Toast.makeText(MulaiTanamRekomendasiActivity.this, MulaiTanamRekomendasiActivity.this.getString(R.string.place_not_found), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable(){
+                        public void run(){
+                            renderWeather(json);
+                        }
+                    });
+                }
+            }
+        }.start();
+    }
+
+    private void renderWeather(JSONObject json){
+        try {
+            JSONObject details = json.getJSONArray("weather").getJSONObject(0);
+            JSONObject main = json.getJSONObject("main");
+            suhu = main.getDouble("temp"); // satuan ℃
+
+
+            setWeatherIcon(details.getInt("id"),
+                    json.getJSONObject("sys").getLong("sunrise") * 1000,
+                    json.getJSONObject("sys").getLong("sunset") * 1000);
+
+        }catch(Exception e){
+            Log.e("SimpleWeather", "One or more fields not found in the JSON data");
+        }
+    }
+
+    private void setWeatherIcon(int actualId, long sunrise, long sunset){
+        int id = actualId / 100;
+        cuaca = "";
+        if(actualId == 800){
+            long currentTime = new Date().getTime();
+            if(currentTime>=sunrise && currentTime<sunset) {
+                cuaca = "Kemarau";
+            } else {
+                cuaca = "Kemarau";
+            }
+        } else {
+            switch(id) {
+                case 2 : cuaca = "Hujan"; //petir
+                    break;
+                case 3 : cuaca = "Hujan"; // gerimis
+                    break;
+                case 7 : cuaca = "Hujan";//berkabut
+                    break;
+                case 8 : cuaca = "Kemarau";//berawan
+                    break;
+                case 6 : cuaca = "Hujan";//salju
+                    break;
+                case 5 : cuaca = "Hujan";//hujan
+                    break;
+            }
+        }
+    }
+
+
 }

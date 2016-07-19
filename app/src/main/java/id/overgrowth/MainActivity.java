@@ -2,7 +2,6 @@ package id.overgrowth;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,18 +10,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import android.widget.PopupWindow;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -46,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        setContentView(R.layout.activity_main_belum_ada_tanaman);
 
         initView();
         if(!session.isLoggedIn()){
@@ -150,5 +143,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         builder.create();
         builder.show();
+    }
+    private void checkTanamanUser(){
+
     }
 }

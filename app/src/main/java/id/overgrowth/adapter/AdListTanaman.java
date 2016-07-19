@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import id.overgrowth.DetailTanamanPilihActivity;
 import id.overgrowth.R;
 import id.overgrowth.model.MTanaman;
+import id.overgrowth.utility.UrlApi;
 
 /**
  * Created by bayu_wpp on 5/28/2016.
@@ -40,7 +41,7 @@ public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder
     public void onBindViewHolder(AdListTanaman.ViewHolder holder, int position) {
         MTanaman tanaman = arrayBuah.get(position);
         Context context = ((ViewHolder) holder).imageBuah.getContext();
-        Picasso.with(context).load(urlPhoto+tanaman.getFototanaman()).into(((ViewHolder)holder).imageBuah);
+        Picasso.with(context).load(UrlApi.urlGambarTanaman+tanaman.getFototanaman()).into(((ViewHolder)holder).imageBuah);
         holder.namaBuah.setText(tanaman.getNamatanaman());
     }
 
@@ -55,8 +56,8 @@ public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
-            imageBuah = (ImageView) itemView.findViewById(R.id.image_foto_kategori_buah);
-            namaBuah = (TextView) itemView.findViewById(R.id.textv_namabuah_kategori);
+            imageBuah = (ImageView) itemView.findViewById(R.id.image_foto_tanaman);
+            namaBuah = (TextView) itemView.findViewById(R.id.textv_nama_tanaman);
 
             final Intent[] intent = new Intent[1];
             itemView.setOnClickListener(new View.OnClickListener() {

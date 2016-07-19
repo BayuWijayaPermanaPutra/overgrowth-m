@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ImageView
-        android:id="@+id/image_foto_kategori_buah"
+        android:id="@+id/image_foto_tanaman"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginRight="10dp"/>
     <TextView
         android:layout_gravity="center_vertical"
-        android:id="@+id/textv_namabuah_kategori"
+        android:id="@+id/textv_nama_tanaman"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18dp"

@@ -8,7 +8,7 @@
     <string name="dialog_action_tambah_tanaman_baru">Mulai Menanam</string>
     <string name="text_atau">Atau</string>
     <string name="text_pilih_tanaman">Pilih Tanaman</string>
-    <string name="text_pindai_tanaman">Pindai tanah yang akan ditanami</string>
+    <string name="text_pindai_tanaman">- Pindai tanah yang akan ditanami -</string>
     <string name="text_rekomendasi">Rekomendasi</string>
     <string name="text_sayuran_capital">SAYURAN</string>
     <string name="text_buah_capital">BUAH</string>
@@ -16,4 +16,7 @@
     <string name="text_unggah_foto_tanaman">Unggah Foto Tanaman</string>
     <string name="text_mulai_menanam">Mulai Menanam</string>
     <string name="server_googleuser_client_id">771219402955-cqpje5krql6pi4l499k7nk717lh3g83f.apps.googleusercontent.com</string>
+    <string name="text_cooming_soon">Coming Soon on the Next Updates</string>
+    <string name="open_weather_maps_app_id">3ad9c1f534d5787ec8f4482a7f11678a</string>
+    <string name="place_not_found">Sorry, no weather data found in this city.</string>
 </resources>

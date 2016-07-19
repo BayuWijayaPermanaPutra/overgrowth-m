@@ -38,17 +38,24 @@ public class PilihKategoriActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View view) {
         Intent intent;
+        Bundle b = new Bundle();
         switch (view.getId()) {
             case R.id.rl_kategori_sayuran :
                 intent = new Intent(PilihKategoriActivity.this, ListTanamanActivity.class);
+                b.putString("jenis_tanaman","Sayuran");
+                intent.putExtras(b);
                 startActivity(intent);
                 break;
             case R.id.rl_kategori_buah :
                 intent = new Intent(PilihKategoriActivity.this, ListTanamanActivity.class);
+                b.putString("jenis_tanaman","Buah");
+                intent.putExtras(b);
                 startActivity(intent);
                 break;
             case R.id.rl_kategori_hias :
                 intent = new Intent(PilihKategoriActivity.this, ListTanamanActivity.class);
+                b.putString("jenis_tanaman","Hias");
+                intent.putExtras(b);
                 startActivity(intent);
                 break;
         }

@@ -23,6 +23,8 @@ public class SessionManager {
 
     private static final String IS_LOGIN = "IsLoggedIn";
 
+    private static final String IS_HAVE_PLANTS = "IsHavePlants";
+
     public static final String KEY_IDUSER = "iduser";
 
     public static final String KEY_NAMAUSER = "namauser";
@@ -43,6 +45,11 @@ public class SessionManager {
         editor.putString(KEY_NAMAUSER, nama);
         editor.putString(KEY_EMAILUSER, email);
         editor.putString(KEY_URL_FOTO_USER, urlUser);
+        editor.commit();
+    }
+
+    public void createHavePlantsSession(){
+        editor.putBoolean(IS_HAVE_PLANTS, true);
         editor.commit();
     }
 
@@ -76,5 +83,9 @@ public class SessionManager {
 
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
+    }
+
+    public boolean isHavePlants() {
+        return pref.getBoolean(IS_HAVE_PLANTS, false);
     }
 }

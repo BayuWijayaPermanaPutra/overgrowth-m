@@ -10,22 +10,20 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import id.overgrowth.R;
 import id.overgrowth.model.MTanaman;
+import id.overgrowth.utility.UrlApi;
 
 /**
  * Created by bayu_ on 5/23/2016.
  */
 public class AdTanamanRekomendasi extends RecyclerView.Adapter<AdTanamanRekomendasi.ViewHolder> {
 
-    private LinkedList<MTanaman> tanaman;
+    private ArrayList<MTanaman> tanaman;
     private Context context;
-    //private final String urlPhoto = "http://solidare.azurewebsites.net/admin/modul/mod_News/gambar/";
-    //private final String urlPhoto = "http://sharingdisini.com/wp-content/uploads/2012/11/chinese-evergreen.png";
-    private final String urlPhoto = "http://sharingdisini.com/wp-content/uploads/2012/11/";
-    public AdTanamanRekomendasi(LinkedList<MTanaman> tanaman, Context context) {
+    public AdTanamanRekomendasi(ArrayList<MTanaman> tanaman, Context context) {
         this.tanaman = tanaman;
         this.context = context;
     }
@@ -42,7 +40,7 @@ public class AdTanamanRekomendasi extends RecyclerView.Adapter<AdTanamanRekomend
         MTanaman mTanaman = tanaman.get(position);
         holder.namatanaman.setText(mTanaman.getNamatanaman());
         Context context = ((ViewHolder) holder).imagetanaman.getContext();
-        Picasso.with(context).load(urlPhoto+mTanaman.getFototanaman()).into(((ViewHolder) holder).imagetanaman);
+        Picasso.with(context).load(UrlApi.urlGambarTanaman+ mTanaman.getFototanaman()).into(((ViewHolder) holder).imagetanaman);
 
     }
 
@@ -58,7 +56,7 @@ public class AdTanamanRekomendasi extends RecyclerView.Adapter<AdTanamanRekomend
         public ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
-            imagetanaman = (ImageView) itemView.findViewById(R.id.image_foto_tanaman);
+            imagetanaman = (ImageView) itemView.findViewById(R.id.image_foto_tanaman_rekomendasi);
             namatanaman = (TextView) itemView.findViewById(R.id.nama_tanaman_rekomendasi);
         }
     }

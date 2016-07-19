@@ -11,17 +11,23 @@ public class MTanaman {
     private String jenistanaman;
     private String awalpanen;
     private String lamapanen;
+    private String deskripsi;
     private String fototanaman;
     private String cocokdimusim;
 
-    public MTanaman(int idtanaman, String namatanaman, String jenistanaman, String awalpanen, String lamapanen, String fototanaman, String cocokdimusim) {
+    public MTanaman(int idtanaman, String namatanaman, String jenistanaman, String awalpanen, String lamapanen, String deskripsi, String fototanaman, String cocokdimusim) {
         this.idtanaman = idtanaman;
         this.namatanaman = namatanaman;
         this.jenistanaman = jenistanaman;
         this.awalpanen = awalpanen;
         this.lamapanen = lamapanen;
+        this.deskripsi = deskripsi;
         this.fototanaman = fototanaman;
         this.cocokdimusim = cocokdimusim;
+    }
+
+    public MTanaman() {
+
     }
 
     public int getIdtanaman() {
@@ -54,6 +60,14 @@ public class MTanaman {
 
     public void setAwalpanen(String awalpanen) {
         this.awalpanen = awalpanen;
+    }
+
+    public String getDeskripsi() {
+        return deskripsi;
+    }
+
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
     }
 
     public String getLamapanen() {

@@ -8,20 +8,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import id.overgrowth.utility.AlertDialogManager;
+import id.overgrowth.utility.InternetCheck;
+
 public class MulaiTanamPilihanActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button btnPilihTanaman;
+    private AlertDialogManager alert;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mulai_tanam_pilihan);
         initView();
         setToolbar();
+        alert = new AlertDialogManager();
         btnPilihTanaman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MulaiTanamPilihanActivity.this,MulaiTanamRekomendasiActivity.class);
-                startActivity(intent);
+                if(InternetCheck.isNetworkConnected(MulaiTanamPilihanActivity.this)){
+                    if (InternetCheck.isNetworkAvailable(MulaiTanamPilihanActivity.this)){
+                        Intent intent = new Intent(MulaiTanamPilihanActivity.this,MulaiTanamRekomendasiActivity.class);
+                        startActivity(intent);
+                    } else {
+                        alert.showAlertDialog(MulaiTanamPilihanActivity.this,"Error","Internet tidak bisa diakses!");
+                    }
+                } else {
+                    alert.showAlertDialog(MulaiTanamPilihanActivity.this,"Error","Tidak terkoneksi ke Internet!\nMohon nyalakan paket data atau koneksi WiFi!");
+                }
+
             }
         });
     }

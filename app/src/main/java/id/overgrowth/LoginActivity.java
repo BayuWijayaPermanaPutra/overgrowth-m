@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressDialog.setTitle("Sign In");
         progressDialog.setMessage("Loading..");
         progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(true);
+        progressDialog.setCancelable(false);
     }
 
     @Override
@@ -168,9 +168,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     LoginActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            progressDialog.dismiss();
                             alert.showAlertDialog(LoginActivity.this,"Pesan",finalMessage);
                             if(finalStatusCode == 200) {
-                                progressDialog.dismiss();
+
+
                                 intent = new Intent(getBaseContext(),MainActivity.class);
                                 startActivity(intent);
                                 finish();
