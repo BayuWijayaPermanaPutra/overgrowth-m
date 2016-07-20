@@ -66,7 +66,7 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
         progressDialog.setTitle("Rekomendasi Tanaman berdasarkan Suhu Cuaca");
         progressDialog.setMessage("Loading..");
         progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(false);
+        progressDialog.setCancelable(true);
 
         fab_info_tanah.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,12 +76,13 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
             }
         });
 
-        //updateWeatherData();
+
         if (session.isLoggedIn()){
             user = session.getUserDetails();
             idUser = user.get(SessionManager.KEY_IDUSER);
             cuaca = "Hujan";
             progressDialog.show();
+            //updateWeatherData();
             getTanamanRekomendasi();
         }
 
@@ -114,9 +115,9 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
     }
 
     public void dataDummy() {
-        tanamanList.add(new MTanaman(1,"Chinese Evergreen","Sayuran","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        tanamanList.add(new MTanaman(2,"Aloevera","Hias","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        tanamanList.add(new MTanaman(3,"Aloevera","Hias","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        tanamanList.add(new MTanaman(1,"Chinese Evergreen","Sayuran",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        tanamanList.add(new MTanaman(2,"Aloevera","Hias",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        tanamanList.add(new MTanaman(3,"Aloevera","Hias",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
     }
 
     private void getTanamanRekomendasi() {
@@ -154,8 +155,7 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
                                 mTanaman.setIdtanaman(jObject.getInt("id_tanaman"));
                                 mTanaman.setNamatanaman(jObject.getString("nama_tanaman"));
                                 mTanaman.setJenistanaman(jObject.getString("jenis_tanaman"));
-                                mTanaman.setAwalpanen(jObject.getString("awal_panen"));
-                                mTanaman.setLamapanen(jObject.getString("lama_panen"));
+                                mTanaman.setLamapanen(jObject.getInt("lama_panen"));
                                 mTanaman.setDeskripsi(jObject.getString("deskripsi"));
                                 mTanaman.setFototanaman(jObject.getString("foto_tanaman"));
                                 mTanaman.setCocokdimusim(jObject.getString("cocokdimusim"));
@@ -211,9 +211,12 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
         try {
             JSONObject details = json.getJSONArray("weather").getJSONObject(0);
             JSONObject main = json.getJSONObject("main");
-            suhu = main.getDouble("temp"); // satuan ℃
-
-
+            suhu = main.getDouble("temp") - 273.15; // satuan K ke ℃
+            if((suhu < 23) && (suhu > 19)) {
+                cuaca = "Hujan & Kemarau";
+            } else if((suhu > 20) && (suhu < 35)) {
+                cuaca = "Kemarau";
+            }
             setWeatherIcon(details.getInt("id"),
                     json.getJSONObject("sys").getLong("sunrise") * 1000,
                     json.getJSONObject("sys").getLong("sunset") * 1000);
@@ -241,7 +244,7 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
                     break;
                 case 7 : cuaca = "Hujan";//berkabut
                     break;
-                case 8 : cuaca = "Kemarau";//berawan
+                case 8 : cuaca = "Hujan";//berawan
                     break;
                 case 6 : cuaca = "Hujan";//salju
                     break;

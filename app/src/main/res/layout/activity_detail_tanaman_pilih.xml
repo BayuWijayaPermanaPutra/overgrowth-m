@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".DetailTanamanPilihActivity">
     <include layout="@layout/toolbar" />
     <LinearLayout
@@ -17,8 +18,8 @@
         >
         <ImageView
             android:id="@+id/image_foto_detailtanaman_pilih"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:src="@drawable/logo"
             android:layout_marginRight="10dp"
             />
@@ -37,47 +38,17 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="7dp"
         android:layout_marginLeft="7dp"
         android:gravity="center_horizontal"
         >
         <android.support.v7.widget.CardView
+            android:layout_marginLeft="8dp"
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:clickable="true"
-            card_view:cardCornerRadius="3dp"
-            card_view:contentPadding="3dp"
-            card_view:cardElevation="1.5dp"
-            >
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/icon_timebulan"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/logo"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="5dp"
-                    />
-                <TextView
-                    android:id="@+id/lama_panentanaman_pilih"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Jun - Des"/>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_marginLeft="10dp"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
             android:padding="5dp"
             android:clickable="true"
             card_view:cardCornerRadius="3dp"
@@ -100,15 +71,17 @@
                     android:id="@+id/lama_rentangsiramtanaman_jam_pilih"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="08:00 - 14:00"/>
+                    android:text="2x/hari"
+                    android:layout_gravity="center_horizontal"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="8dp"
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
             android:padding="5dp"
             android:clickable="true"
             card_view:cardCornerRadius="3dp"
@@ -128,18 +101,19 @@
                     android:layout_marginBottom="5dp"
                     />
                 <TextView
-                    android:id="@+id/lama_tumbuhtanaman_hari_pilih"
+                    android:id="@+id/textv_lama_panen_tanaman_hari_pilih"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:text="12 Hari"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="8dp"
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
             android:padding="5dp"
             android:clickable="true"
             card_view:cardCornerRadius="3dp"
@@ -162,9 +136,11 @@
                     android:id="@+id/textv_tanamancocokdimusim_pilih"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:text="Kemarau"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
     </LinearLayout>
     <LinearLayout
         android:id="@+id/linear_layout_lihatvirtualreality_pilih"
@@ -175,20 +151,16 @@
         android:background="@color/white"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:layout_margin="10dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/ic_plant"
-            />
-        <TextView
-            android:text="Lihat tanaman dengan virtual reality"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            />
+            <TextView
+                android:id="@+id/textv_deskripsi_tanaman_pilih"
+                android:text="Deskripsi Tanaman"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp"
+                />
     </LinearLayout>
     <Button
         android:id="@+id/button_pilih_tanaman_detail_pilih"

@@ -80,21 +80,10 @@ public class ListTanamanActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     private void dataDummy(){
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah","2016-15-2016","2","Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -142,8 +131,7 @@ public class ListTanamanActivity extends AppCompatActivity {
                                 mTanaman.setIdtanaman(jObject.getInt("id_tanaman"));
                                 mTanaman.setNamatanaman(jObject.getString("nama_tanaman"));
                                 mTanaman.setJenistanaman(jObject.getString("jenis_tanaman"));
-                                mTanaman.setAwalpanen(jObject.getString("awal_panen"));
-                                mTanaman.setLamapanen(jObject.getString("lama_panen"));
+                                mTanaman.setLamapanen(jObject.getInt("lama_panen"));
                                 mTanaman.setDeskripsi(jObject.getString("deskripsi"));
                                 mTanaman.setFototanaman(jObject.getString("foto_tanaman"));
                                 mTanaman.setCocokdimusim(jObject.getString("cocokdimusim"));

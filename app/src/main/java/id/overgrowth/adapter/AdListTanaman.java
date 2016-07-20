@@ -2,6 +2,7 @@ package id.overgrowth.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,6 @@ import id.overgrowth.utility.UrlApi;
 public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder> {
     private ArrayList<MTanaman> arrayBuah;
     private Context context;
-    private final String urlPhoto = "http://sharingdisini.com/wp-content/uploads/2012/11/";
 
     public AdListTanaman(ArrayList<MTanaman> arrayBuah, Context context) {
         this.arrayBuah = arrayBuah;
@@ -60,10 +60,14 @@ public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder
             namaBuah = (TextView) itemView.findViewById(R.id.textv_nama_tanaman);
 
             final Intent[] intent = new Intent[1];
+            final Bundle b = new Bundle();
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     intent[0] = new Intent(view.getContext(), DetailTanamanPilihActivity.class);
+                    DetailTanamanPilihActivity.id_tanaman = arrayBuah.get(getAdapterPosition()).getIdtanaman();
+                    b.putInt("id_tanaman",arrayBuah.get(getAdapterPosition()).getIdtanaman());
+                    intent[0].putExtras(b);
                     context.startActivity(intent[0]);
                 }
             });
@@ -71,6 +75,9 @@ public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder
                 @Override
                 public boolean onLongClick(View view) {
                     intent[0] = new Intent(view.getContext(),DetailTanamanPilihActivity.class);
+                    DetailTanamanPilihActivity.id_tanaman = arrayBuah.get(getAdapterPosition()).getIdtanaman();
+                    b.putInt("id_tanaman",arrayBuah.get(getAdapterPosition()).getIdtanaman());
+                    intent[0].putExtras(b);
                     context.startActivity(intent[0]);
                     return true;
                 }

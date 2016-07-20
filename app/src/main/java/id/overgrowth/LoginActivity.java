@@ -169,9 +169,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         @Override
                         public void run() {
                             progressDialog.dismiss();
-                            alert.showAlertDialog(LoginActivity.this,"Pesan",finalMessage);
+                            Toast.makeText(LoginActivity.this, finalMessage, Toast.LENGTH_SHORT).show();
                             if(finalStatusCode == 200) {
-
 
                                 intent = new Intent(getBaseContext(),MainActivity.class);
                                 startActivity(intent);

@@ -14,4 +14,5 @@ public class UrlApi {
     public static final String urlTanamanUser = "http://overgrowth.azurewebsites.net/admin/APIv2/planting/tanaman_user.php";
     public static final String urlSiramTanaman = "http://overgrowth.azurewebsites.net/admin/APIv2/planting/siram_tanamanuser.php";
     public static final String urlUploadTanamanUser = "http://overgrowth.azurewebsites.net/admin/APIv2/planting/upload_tanaman_user.php";
+    public static final String urlGambarTanamanUser = "http://overgrowth.azurewebsites.net/admin/modul/tanaman/gambar_tanaman_pengguna/";
 }
