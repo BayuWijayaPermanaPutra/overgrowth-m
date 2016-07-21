@@ -18,11 +18,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
+import id.overgrowth.model.MTanamanUser;
 import id.overgrowth.utility.AlertDialogManager;
 import id.overgrowth.utility.InternetCheck;
 import id.overgrowth.utility.OkHttpRequest;
@@ -45,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private ProgressDialog progressDialog;
     private AlertDialogManager alert;
     private RequestBody requestBody;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +116,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             handleSignInResult(result);
         }
     }
+
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
@@ -132,6 +136,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         }
     }
+
     private void finishLogin() {
         Log.i("NamaUser:",nama);
         Log.i("IDUser:",id_user);
@@ -171,7 +176,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             progressDialog.dismiss();
                             Toast.makeText(LoginActivity.this, finalMessage, Toast.LENGTH_SHORT).show();
                             if(finalStatusCode == 200) {
-
                                 intent = new Intent(getBaseContext(),MainActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -184,5 +188,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             e.printStackTrace();
         }
     }
+
 
 }

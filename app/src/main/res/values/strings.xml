@@ -20,4 +20,7 @@
     <string name="open_weather_maps_app_id">3ad9c1f534d5787ec8f4482a7f11678a</string>
     <string name="place_not_found">Sorry, no weather data found in this city.</string>
     <string name="text_lihat_dengan_virtual_reality">- Lihat tanaman dengan virtual reality -</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

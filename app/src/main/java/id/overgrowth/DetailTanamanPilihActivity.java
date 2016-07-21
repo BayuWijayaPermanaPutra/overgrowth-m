@@ -210,7 +210,7 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Toast.makeText(DetailTanamanPilihActivity.this, finalMessage, Toast.LENGTH_SHORT).show();
-                            intent[0] = new Intent(DetailTanamanPilihActivity.this,MainActivity.class);
+                            intent[0] = new Intent(DetailTanamanPilihActivity.this, MainActivity.class);
                             startActivity(intent[0]);
                             finish();
                         }
