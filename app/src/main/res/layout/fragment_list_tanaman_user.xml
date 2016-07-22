@@ -2,16 +2,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ListTanamanUserFragment">
-
     <!-- TODO: Update blank fragment layout -->
-    <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/recyclerviewtanamanuser"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        >
-    </android.support.v7.widget.RecyclerView>
-
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/recyclerviewtanamanuser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            >
+        </android.support.v7.widget.RecyclerView>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_add_tanaman_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:background="@color/colorAccent"
+            android:src="@mipmap/ic_plant"
+            android:clickable="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            app:layout_anchor="@id/recyclerviewtanamanuser"
+            app:layout_anchorGravity="bottom|right|end"/>
+    </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>

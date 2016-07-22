@@ -10,18 +10,20 @@ public class MTanamanUser {
     private String jenisTanaman;
     private int lamaPanen;
     private String deskripsiTanaman;
+    private String caraMenanam;
     private String fotoTanaman;
     private String cocokDiMusim;
     private String waktuMenanam;
     private String terakhirDiSiram;
 
-    public MTanamanUser(int idTanamanUser, int idTanaman, String namaTanaman, String jenisTanaman, int lamaPanen, String deskripsiTanaman, String fotoTanaman, String cocokDiMusim, String waktuMenanam, String terakhirDiSiram) {
+    public MTanamanUser(int idTanamanUser, int idTanaman, String namaTanaman, String jenisTanaman, int lamaPanen, String deskripsiTanaman, String caraMenanam, String fotoTanaman, String cocokDiMusim, String waktuMenanam, String terakhirDiSiram) {
         this.idTanamanUser = idTanamanUser;
         this.idTanaman = idTanaman;
         this.namaTanaman = namaTanaman;
         this.jenisTanaman = jenisTanaman;
         this.lamaPanen = lamaPanen;
         this.deskripsiTanaman = deskripsiTanaman;
+        this.caraMenanam = caraMenanam;
         this.fotoTanaman = fotoTanaman;
         this.cocokDiMusim = cocokDiMusim;
         this.waktuMenanam = waktuMenanam;
@@ -78,6 +80,14 @@ public class MTanamanUser {
 
     public void setDeskripsiTanaman(String deskripsiTanaman) {
         this.deskripsiTanaman = deskripsiTanaman;
+    }
+
+    public String getCaraMenanam() {
+        return caraMenanam;
+    }
+
+    public void setCaraMenanam(String caraMenanam) {
+        this.caraMenanam = caraMenanam;
     }
 
     public String getFotoTanaman() {

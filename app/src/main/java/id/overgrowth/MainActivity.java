@@ -1,22 +1,18 @@
 package id.overgrowth;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView emailUser;
     private TextView logout;
     private RequestBody requestBody;
+    private TextView titleToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,11 +96,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-        prosesCekTanamanUser();
+        cekTanamanUser();
         FragmentManager fragmentManager = getSupportFragmentManager();
         HomeFragment home = new HomeFragment();
         ListTanamanUserFragment tanaman_user = new ListTanamanUserFragment();
-        if (adaTanamanUser){
+        if (!adaTanamanUser) {
+            titleToolbar.setText("Tanaman Saya");
             fragmentManager.beginTransaction().replace(R.id.container_body, tanaman_user).commit();
         } else {
             fragmentManager.beginTransaction().replace(R.id.container_body, home).commit();
@@ -114,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView = (NavigationView) findViewById(R.id.fragment_navigation_drawer);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
+        titleToolbar = (TextView) findViewById(R.id.title_toolbar);
 
         session = new SessionManager(this);
     }
@@ -144,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void prosesCekTanamanUser(){
+    private void cekTanamanUser(){
         Log.i("iduser:",idUser);
 
         requestBody = new FormBody.Builder()
