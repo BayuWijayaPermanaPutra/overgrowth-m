@@ -26,7 +26,9 @@
         <activity android:name=".PilihKategoriActivity" />
         <activity android:name=".ListTanamanActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".DetailTanamanPilihActivity"></activity>
+        <activity android:name=".DetailTanamanPilihActivity" />
+        <activity android:name=".DetailDeskripsiTanamanActivity" />
+        <activity android:name=".DetailTanamanUserActivity"></activity>
     </application>
 
 </manifest>

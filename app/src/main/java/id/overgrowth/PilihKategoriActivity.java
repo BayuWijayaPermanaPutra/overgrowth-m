@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import id.overgrowth.utility.AlertDialogManager;
 import id.overgrowth.utility.InternetCheck;
@@ -17,6 +18,7 @@ public class PilihKategoriActivity extends AppCompatActivity implements View.OnC
     private RelativeLayout rlBuah;
     private RelativeLayout rlHias;
     private AlertDialogManager alert;
+    private TextView titleToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +36,12 @@ public class PilihKategoriActivity extends AppCompatActivity implements View.OnC
         rlSayuran = (RelativeLayout) findViewById(R.id.rl_kategori_sayuran);
         rlBuah = (RelativeLayout) findViewById(R.id.rl_kategori_buah);
         rlHias = (RelativeLayout) findViewById(R.id.rl_kategori_hias);
+        titleToolbar = (TextView) findViewById(R.id.title_toolbar);
     }
     private void setupToolbar(){
+        titleToolbar.setText("Pilih Kategori");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Pilih Kategori");
     }
 
     @Override

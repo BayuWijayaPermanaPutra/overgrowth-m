@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setDialogPopUp() {
-        final String [] items = new String[] {"Unggah Foto Tanaman", "Mulai Menanam"};
+        final String [] items = new String[] {"Sudah ada tanaman", "Baru memulai"};
         final Integer[] icons = new Integer[] {R.mipmap.ic_plant, R.mipmap.ic_toolsiram};
         ListAdapter adapter = new AdArrayWithIcon(getActivity(), items, icons);
 

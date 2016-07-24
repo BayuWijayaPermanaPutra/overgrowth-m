@@ -1,28 +1,35 @@
 package id.overgrowth;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import id.overgrowth.adapter.AdListTanamanUser;
 import id.overgrowth.model.MTanamanUser;
 import id.overgrowth.utility.DividerItem;
 import id.overgrowth.utility.OkHttpRequest;
+import id.overgrowth.utility.SessionManager;
 import id.overgrowth.utility.UrlApi;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,18 +43,24 @@ import okhttp3.Response;
  */
 public class ListTanamanUserFragment extends Fragment {
     private ArrayList<MTanamanUser> tanamanUserArrayList = new ArrayList<>();
-    private View parentView;
     private RecyclerView recyclerView;
     private AdListTanamanUser adapter;
     private RequestBody requestBody;
+    private HashMap<String, String> user;
+    private String idUser;
+    private SessionManager session;
+    private FloatingActionButton fabMain;
+    private FloatingActionButton fab1;
+    private FloatingActionButton fab2;
+    private boolean FAB_Status = false;
+    Animation show_fab_1;
+    Animation hide_fab_1;
+    Animation show_fab_2;
+    Animation hide_fab_2;
+    Intent intent;
+
     public ListTanamanUserFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        dummyTanamanUser();
     }
 
     @Override
@@ -55,18 +68,126 @@ public class ListTanamanUserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_list_tanaman_user, container, false);
-        parentView = rootView;
-        recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerviewtanamanuser);
 
+        initView(rootView);
+        setObject();
+        if (session.isLoggedIn()){
+            user = session.getUserDetails();
+            idUser = user.get(SessionManager.KEY_IDUSER);
+            //getTanamanUser();
+        }
+
+        dummyTanamanUser();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
-
         adapter = new AdListTanamanUser(tanamanUserArrayList,getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItem(getActivity()));
         recyclerView.setHasFixedSize(true);
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (FAB_Status) {
+                    hideFAB();
+                    FAB_Status = false;
+                }
+                return false;
+            }
+        });
+        fabMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (FAB_Status == false) {
+                    expandFAB();
+                    FAB_Status = true;
+                } else {
+                    hideFAB();
+                    FAB_Status = false;
+                }
+            }
+        });
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FAB_Status == false) {
+                    expandFAB();
+                    FAB_Status = true;
+                } else {
+                    hideFAB();
+                    FAB_Status = false;
+                }
+                intent = new Intent(getActivity(),PilihKategoriActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FAB_Status == false) {
+                    expandFAB();
+                    FAB_Status = true;
+                } else {
+                    hideFAB();
+                    FAB_Status = false;
+                }
+                intent = new Intent(getActivity(),MulaiTanamPilihanActivity.class);
+                startActivity(intent);
+            }
+        });
         return rootView;
+    }
+
+    private void initView(View rootView) {
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewtanamanuser);
+        fabMain = (FloatingActionButton) rootView.findViewById(R.id.fab_add_tanaman_user);
+        fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab_1);
+        fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab_2);
+
+        //Animations
+        show_fab_1 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab1_show);
+        hide_fab_1 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab1_hide);
+        show_fab_2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab2_show);
+        hide_fab_2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab2_hide);
+    }
+    private void setObject(){
+        session = new SessionManager(getActivity());
+    }
+
+    private void expandFAB(){
+        //Floating Action Button 1
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) fab1.getLayoutParams();
+        layoutParams.rightMargin += (int) (fab1.getWidth() * 1.0);
+        layoutParams.bottomMargin += (int) (fab1.getHeight() * 0.25);
+        fab1.setLayoutParams(layoutParams);
+        fab1.startAnimation(show_fab_1);
+        fab1.setClickable(true);
+
+        //Floating Action Button 2
+        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) fab2.getLayoutParams();
+        layoutParams2.rightMargin += (int) (fab2.getWidth() * 0.5);
+        layoutParams2.bottomMargin += (int) (fab2.getHeight() * 0.8);
+        fab2.setLayoutParams(layoutParams2);
+        fab2.startAnimation(show_fab_2);
+        fab2.setClickable(true);
+    }
+
+    private void hideFAB(){
+        //Floating Action Button 1
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) fab1.getLayoutParams();
+        layoutParams.rightMargin -= (int) (fab1.getWidth() * 1.0);
+        layoutParams.bottomMargin -= (int) (fab1.getHeight() * 0.25);
+        fab1.setLayoutParams(layoutParams);
+        fab1.startAnimation(hide_fab_1);
+        fab1.setClickable(false);
+
+        //Floating Action Button 2
+        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) fab2.getLayoutParams();
+        layoutParams2.rightMargin -= (int) (fab2.getWidth() * 0.5);
+        layoutParams2.bottomMargin -= (int) (fab2.getHeight() * 0.8);
+        fab2.setLayoutParams(layoutParams2);
+        fab2.startAnimation(hide_fab_2);
+        fab2.setClickable(false);
     }
 
     public void dummyTanamanUser(){
@@ -79,10 +200,10 @@ public class ListTanamanUserFragment extends Fragment {
     }
 
     private void getTanamanUser(){
-        Log.i("iduser:",String.valueOf(1));
+        Log.i("iduser:",idUser);
 
         requestBody = new FormBody.Builder()
-                .add("id_user", String.valueOf(1))
+                .add("id_user", idUser)
                 .build();
 
         try {
@@ -94,7 +215,7 @@ public class ListTanamanUserFragment extends Fragment {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    int statusCode;
+                    int statusCode = 0;
                     String pesan = null;
                     try {
                         Log.i("getdatanews", "response success");
@@ -102,6 +223,18 @@ public class ListTanamanUserFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         statusCode = jsonObject.getInt("statusCode");
                         pesan = jsonObject.getString("pesan");
+                        if(pesan.equals("Anda memiliki tanaman di galeri!")){
+                            JSONArray jsonArray = jsonObject.getJSONArray("item");
+                            for (int i = 0; i < jsonArray.length(); i++){
+                                JSONObject jObject = jsonArray.getJSONObject(i);
+                                MTanamanUser mTanamanUser = new MTanamanUser();
+                                mTanamanUser.setIdTanamanUser(jObject.getInt("id_tanaman_user"));
+                                mTanamanUser.setNamaTanaman(jObject.getString("nama_tanaman"));
+                                mTanamanUser.setFotoTanaman(jObject.getString("foto_tanaman"));
+                                tanamanUserArrayList.add(mTanamanUser);
+                            }
+
+                        }
                         Log.i("getdatanews", String.valueOf(statusCode));
 
 
@@ -110,11 +243,18 @@ public class ListTanamanUserFragment extends Fragment {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    final String finalPesan = pesan;
+                    final int finalStatusCode = statusCode;
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getActivity(), finalPesan, Toast.LENGTH_LONG).show();
+                            if (finalStatusCode == 200) {
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
+                                adapter = new AdListTanamanUser(tanamanUserArrayList,getActivity());
+                                recyclerView.setAdapter(adapter);
+                                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                                recyclerView.addItemDecoration(new DividerItem(getActivity()));
+                                recyclerView.setHasFixedSize(true);
+                            }
 
                         }
                     });

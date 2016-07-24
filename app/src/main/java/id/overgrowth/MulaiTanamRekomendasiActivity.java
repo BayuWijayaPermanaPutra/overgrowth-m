@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -54,6 +55,7 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
     private SessionManager session;
     private HashMap<String, String> user;
     private String idUser;
+    private TextView titleToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +91,9 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        titleToolbar = (TextView) findViewById(R.id.title_toolbar);
         rvTanaman = (RecyclerView) findViewById(R.id.recyclerview_rekomendasitanaman);
         fab_info_tanah = (FloatingActionButton) findViewById(R.id.fab_info_tanah);
         alert = new AlertDialogManager();
@@ -99,8 +103,8 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
 
     private void setToolbar() {
         setSupportActionBar(toolbar);
+        titleToolbar.setText("Mulai Tanam");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Mulai Tanam");
     }
 
     @Override
@@ -115,9 +119,9 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
     }
 
     public void dataDummy() {
-        tanamanList.add(new MTanaman(1,"Chinese Evergreen","Sayuran",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        tanamanList.add(new MTanaman(2,"Aloevera","Hias",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        tanamanList.add(new MTanaman(3,"Aloevera","Hias",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        tanamanList.add(new MTanaman(1,"Chinese Evergreen","Sayuran",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
+        tanamanList.add(new MTanaman(2,"Aloevera","Hias",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
+        tanamanList.add(new MTanaman(3,"Aloevera","Hias",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
     }
 
     private void getTanamanRekomendasi() {
@@ -158,6 +162,7 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
                                 mTanaman.setLamapanen(jObject.getInt("lama_panen"));
                                 mTanaman.setDeskripsi(jObject.getString("deskripsi"));
                                 mTanaman.setFototanaman(jObject.getString("foto_tanaman"));
+                                mTanaman.setCaramenanam(jObject.getString("cara_menanam"));
                                 mTanaman.setCocokdimusim(jObject.getString("cocokdimusim"));
                                 tanamanList.add(mTanaman);
                             }

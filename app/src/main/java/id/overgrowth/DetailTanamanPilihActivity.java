@@ -39,9 +39,9 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
     private String cocokDiMusim;
     private int lamaPanen;
     private String urlGambar;
-    private String deskripsi;
+    private String deskripsi, caraMenanam;
 
-    private TextView txtVNama, txtVCocokDiMusim, txtVLamaPanen, txtVDeskripsi;
+    private TextView txtVNama, txtVCocokDiMusim, txtVLamaPanen, txtVDeskripsi, txtVBacaSelengkapnya;
     private ImageView imageVGambar;
     private Button buttonPilih;
     FormBody formBody;
@@ -54,7 +54,9 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
     private static final String TAG_COCOK_DI_MUSIM = "cocokdimusim";
     private static final String TAG_LAMA_PANEN = "lama_panen";
     private static final String TAG_DESKRIPSI = "deskripsi";
+    private static final String TAG_CARA_MENANAM = "cara_menanam";
     private AlertDialogManager alert;
+    private TextView titleToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +106,8 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
                                     urlGambar = UrlApi.urlGambarTanaman+jObject.getString(TAG_GAMBAR);
                                     nama = jObject.getString(TAG_NAMA);
                                     lamaPanen = jObject.getInt(TAG_LAMA_PANEN);
-                                    deskripsi = Html.fromHtml(jObject.getString(TAG_DESKRIPSI)).toString();
+                                    deskripsi = unescape(Html.fromHtml(jObject.getString(TAG_DESKRIPSI)).toString());
+                                    caraMenanam = unescape(Html.fromHtml(jObject.getString(TAG_CARA_MENANAM)).toString());
                                     cocokDiMusim = jObject.getString(TAG_COCOK_DI_MUSIM);
                                     if(cocokDiMusim.equals("Hujan & Kemarau")){
                                         cocokDiMusim = "Semua Musim";
@@ -125,11 +128,24 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
                                 Picasso.with(getBaseContext()).load(urlGambar).into(imageVGambar);
                                 txtVLamaPanen.setText(String.valueOf(lamaPanen)+" hari");
                                 txtVCocokDiMusim.setText(cocokDiMusim);
-                                txtVDeskripsi.setText(deskripsi);
+                                String desShow = deskripsi + ". Cara Menanam : " + caraMenanam;
+                                txtVDeskripsi.setText(desShow);
                                 buttonPilih.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         prosesPilihTanaman();
+                                    }
+                                });
+
+                                txtVBacaSelengkapnya.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Bundle b = new Bundle();
+                                        Intent intent = new Intent(DetailTanamanPilihActivity.this, DetailDeskripsiTanamanActivity.class);
+                                        b.putString("deskripsiTanaman",deskripsi);
+                                        b.putString("caraMenanam",caraMenanam);
+                                        intent.putExtras(b);
+                                        startActivity(intent);
                                     }
                                 });
                             }
@@ -139,25 +155,30 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
 
+        }
+    }
+
+    private String unescape(String description) {
+        return description.replaceAll("\\\\n", "\\\n");
     }
 
     private void initView(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        titleToolbar = (TextView) findViewById(R.id.title_toolbar);
         txtVNama = (TextView) findViewById(R.id.textv_namadetail_pilih);
         imageVGambar = (ImageView) findViewById(R.id.image_foto_detailtanaman_pilih);
 
         txtVLamaPanen = (TextView) findViewById(R.id.textv_lama_panen_tanaman_hari_pilih);
         txtVCocokDiMusim = (TextView) findViewById(R.id.textv_tanamancocokdimusim_pilih);
         txtVDeskripsi = (TextView) findViewById(R.id.textv_deskripsi_tanaman_pilih);
-
+        txtVBacaSelengkapnya = (TextView) findViewById(R.id.textv_baca_selengkapnya_pilih);
         buttonPilih = (Button) findViewById(R.id.button_pilih_tanaman_detail_pilih);
     }
 
     private void setToolbar(){
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Detail Tanaman");
+        titleToolbar.setText("Detail Tanaman");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     @Override
@@ -189,11 +210,9 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
                     int statusCode;
                     String message = null;
                     try {
-                        String result = response.body().string();
-                        Log.i("Hasil JSON : ", result);
                         Log.i("getdatapilihtanaman", "response detail news success");
 
-                        JSONObject jsonObject = new JSONObject(result);
+                        JSONObject jsonObject = new JSONObject(response.body().string());
                         statusCode = jsonObject.getInt("statusCode");
                         message = jsonObject.getString("message");
                         Log.i("getpilihtanamanstatus", String.valueOf(statusCode));
@@ -209,7 +228,7 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
                     DetailTanamanPilihActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(DetailTanamanPilihActivity.this, finalMessage, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DetailTanamanPilihActivity.this, finalMessage, Toast.LENGTH_LONG).show();
                             intent[0] = new Intent(DetailTanamanPilihActivity.this, MainActivity.class);
                             startActivity(intent[0]);
                             finish();

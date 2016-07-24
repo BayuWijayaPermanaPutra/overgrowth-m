@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -44,6 +45,7 @@ public class ListTanamanActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private AlertDialogManager alert;
     private RequestBody requestBody;
+    private TextView titleToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,21 +72,23 @@ public class ListTanamanActivity extends AppCompatActivity {
 
     private void initView(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        titleToolbar = (TextView) findViewById(R.id.title_toolbar);
         rvListTanaman = (RecyclerView) findViewById(R.id.recyclerview_list_tanaman);
         alert = new AlertDialogManager();
         session = new SessionManager(getBaseContext());
     }
     private void setToolbar(String title){
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(title);
+        titleToolbar.setText(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     private void dataDummy(){
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Kemarau"));
+        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
+        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
+        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
+        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -134,6 +138,7 @@ public class ListTanamanActivity extends AppCompatActivity {
                                 mTanaman.setLamapanen(jObject.getInt("lama_panen"));
                                 mTanaman.setDeskripsi(jObject.getString("deskripsi"));
                                 mTanaman.setFototanaman(jObject.getString("foto_tanaman"));
+                                mTanaman.setCaramenanam(jObject.getString("cara_menanam"));
                                 mTanaman.setCocokdimusim(jObject.getString("cocokdimusim"));
                                 arrayTanaman.add(mTanaman);
                             }

@@ -13,7 +13,6 @@
             android:id="@+id/recyclerviewtanamanuser"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
             >
         </android.support.v7.widget.RecyclerView>
         <android.support.design.widget.FloatingActionButton
@@ -25,7 +24,9 @@
             android:clickable="true"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
+            app:layout_behavior="id.overgrowth.utility.ScrollAwareFABBehavior"
             app:layout_anchor="@id/recyclerviewtanamanuser"
             app:layout_anchorGravity="bottom|right|end"/>
+        <include layout="@layout/fab_layout" />
     </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>
