@@ -1,6 +1,10 @@
 package id.overgrowth;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +14,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +62,7 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
     private HashMap<String, String> user;
     private String idUser;
     private TextView titleToolbar;
+    private boolean statusProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +91,18 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
             idUser = user.get(SessionManager.KEY_IDUSER);
             cuaca = "Hujan";
             progressDialog.show();
+            statusProgressDialog = true;
+            Runnable progressRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    progressDialog.cancel();
+                    if(statusProgressDialog){
+                        showDialog();
+                    }
+                }
+            };
+            Handler pdCanceller = new Handler();
+            pdCanceller.postDelayed(progressRunnable, 20000);//20 detik
             //updateWeatherData();
             getTanamanRekomendasi();
         }
@@ -258,6 +277,33 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
             }
         }
     }
-
+    private void showDialog() {
+        final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
+        final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) findViewById(R.id.layout_dialog_coba_lagi));
+        popDialog.setIcon(android.R.drawable.stat_notify_error);
+        popDialog.setTitle("Gagal mendapatkan rekomendasi tanaman");
+        popDialog.setView(Viewlayout);
+        popDialog.setCancelable(false);
+        // Button OK
+        popDialog.setPositiveButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    }
+                })
+                // Button Cancel
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                finish();
+                            }
+                        });
+        popDialog.create();
+        popDialog.show();
+    }
 
 }

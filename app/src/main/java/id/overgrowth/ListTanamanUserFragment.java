@@ -1,8 +1,13 @@
 package id.overgrowth;
 
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -58,6 +63,8 @@ public class ListTanamanUserFragment extends Fragment {
     Animation show_fab_2;
     Animation hide_fab_2;
     Intent intent;
+    ProgressDialog progressDialog;
+    private boolean statusProgressDialog;
 
     public ListTanamanUserFragment() {
         // Required empty public constructor
@@ -74,26 +81,11 @@ public class ListTanamanUserFragment extends Fragment {
         if (session.isLoggedIn()){
             user = session.getUserDetails();
             idUser = user.get(SessionManager.KEY_IDUSER);
-            //getTanamanUser();
+            getTanamanUser();
         }
 
-        dummyTanamanUser();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
-        adapter = new AdListTanamanUser(tanamanUserArrayList,getActivity());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItem(getActivity()));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (FAB_Status) {
-                    hideFAB();
-                    FAB_Status = false;
-                }
-                return false;
-            }
-        });
+
+
         fabMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,6 +141,8 @@ public class ListTanamanUserFragment extends Fragment {
         hide_fab_1 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab1_hide);
         show_fab_2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab2_show);
         hide_fab_2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab2_hide);
+
+        progressDialog = new ProgressDialog(getActivity());
     }
     private void setObject(){
         session = new SessionManager(getActivity());
@@ -202,6 +196,24 @@ public class ListTanamanUserFragment extends Fragment {
     private void getTanamanUser(){
         Log.i("iduser:",idUser);
 
+        progressDialog.setTitle("Load Data Tanaman Kamu");
+        progressDialog.setMessage("Loading..");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
+        statusProgressDialog = true;
+        Runnable progressRunnable = new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.cancel();
+                if(statusProgressDialog){
+                    showDialog();
+                }
+            }
+        };
+        Handler pdCanceller = new Handler();
+        pdCanceller.postDelayed(progressRunnable, 15000);
+
         requestBody = new FormBody.Builder()
                 .add("id_user", idUser)
                 .build();
@@ -223,7 +235,7 @@ public class ListTanamanUserFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         statusCode = jsonObject.getInt("statusCode");
                         pesan = jsonObject.getString("pesan");
-                        if(pesan.equals("Anda memiliki tanaman di galeri!")){
+                        if(pesan.equals("Kamu memiliki tanaman di galeri!")){
                             JSONArray jsonArray = jsonObject.getJSONArray("item");
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject jObject = jsonArray.getJSONObject(i);
@@ -231,6 +243,7 @@ public class ListTanamanUserFragment extends Fragment {
                                 mTanamanUser.setIdTanamanUser(jObject.getInt("id_tanaman_user"));
                                 mTanamanUser.setNamaTanaman(jObject.getString("nama_tanaman"));
                                 mTanamanUser.setFotoTanaman(jObject.getString("foto_tanaman"));
+                                mTanamanUser.setWaktuMenanam(jObject.getString("waktu_menanam"));
                                 tanamanUserArrayList.add(mTanamanUser);
                             }
 
@@ -247,6 +260,10 @@ public class ListTanamanUserFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            if (statusProgressDialog == true){
+                                progressDialog.dismiss();
+                                statusProgressDialog = false;
+                            }
                             if (finalStatusCode == 200) {
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
                                 adapter = new AdListTanamanUser(tanamanUserArrayList,getActivity());
@@ -254,6 +271,16 @@ public class ListTanamanUserFragment extends Fragment {
                                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                                 recyclerView.addItemDecoration(new DividerItem(getActivity()));
                                 recyclerView.setHasFixedSize(true);
+                                recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View v, MotionEvent event) {
+                                        if (FAB_Status) {
+                                            hideFAB();
+                                            FAB_Status = false;
+                                        }
+                                        return false;
+                                    }
+                                });
                             }
 
                         }
@@ -263,5 +290,33 @@ public class ListTanamanUserFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void showDialog() {
+        final AlertDialog.Builder popDialog = new AlertDialog.Builder(getActivity());
+        final LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) getActivity().findViewById(R.id.layout_dialog_coba_lagi));
+        popDialog.setIcon(android.R.drawable.stat_notify_error);
+        popDialog.setTitle("Gagal koneksi ke Internet");
+        popDialog.setView(Viewlayout);
+        popDialog.setCancelable(false);
+        // Button OK
+        popDialog.setPositiveButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = getActivity().getIntent();
+                        getActivity().finish();
+                        startActivity(intent);
+                    }
+                })
+                // Button Cancel
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                getActivity().finish();
+                            }
+                        });
+        popDialog.create();
+        popDialog.show();
     }
 }

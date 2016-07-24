@@ -1,7 +1,12 @@
 package id.overgrowth;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,21 +56,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView logout;
     private RequestBody requestBody;
     private TextView titleToolbar;
-    AlertDialogManager alert;
     ProgressDialog progressDialog;
+    private boolean statusProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
+
         if(InternetCheck.isNetworkConnected(this)){
             if (InternetCheck.isNetworkAvailable(this)) {
-
+                initView();
                 if(!session.isLoggedIn()){
                     Intent login = new Intent(this, LoginActivity.class);
                     startActivity(login);
-
                     finish();
                     return;
                 }
@@ -102,24 +107,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 cekTanamanUser();
             } else {
-                alert.showAlertDialog(this,"Error","Internet tidak bisa diakses!");
+                //alert.showAlertDialog(this,"Error","Internet tidak bisa diakses!");
+                showDialog();
             }
         } else {
-            alert.showAlertDialog(this,"Error","Tidak terkoneksi ke Internet!\nMohon nyalakan paket data atau koneksi WiFi!");
+           //alert.showAlertDialog(this,"Error","Tidak terkoneksi ke Internet!\nMohon nyalakan paket data atau koneksi WiFi!");
+            showDialog();
         }
-
-
-
     }
+
+
     private void initView() {
         navigationView = (NavigationView) findViewById(R.id.fragment_navigation_drawer);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         titleToolbar = (TextView) findViewById(R.id.title_toolbar);
         session = new SessionManager(this);
-        alert = new AlertDialogManager();
         progressDialog = new ProgressDialog(this);
-
     }
 
     @Override
@@ -148,10 +152,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void cekTanamanUser(){
         Log.i("iduser:",idUser);
-        progressDialog.setTitle("Load Data Tanaman Kamu");
+        progressDialog.setTitle("Pengecekkan Data Tanaman Kamu");
         progressDialog.setMessage("Loading..");
         progressDialog.setIndeterminate(false);
         progressDialog.setCancelable(true);
+        progressDialog.show();
+        statusProgressDialog = true;
+        Runnable progressRunnable = new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.cancel();
+                if(statusProgressDialog){
+                    showDialog();
+                }
+            }
+        };
+        Handler pdCanceller = new Handler();
+        pdCanceller.postDelayed(progressRunnable, 18000);
 
         requestBody = new FormBody.Builder()
                 .add("id_user", idUser)
@@ -191,7 +208,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             HomeFragment home = new HomeFragment();
                             ListTanamanUserFragment tanaman_user = new ListTanamanUserFragment();
-                            progressDialog.dismiss();
+                            if (statusProgressDialog == true){
+                                progressDialog.dismiss();
+                                statusProgressDialog = false;
+                            }
 
                             if (finalStatusCode == 200) {
                                 titleToolbar.setText("Tanaman Saya");
@@ -208,5 +228,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void showDialog() {
+        final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
+        final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) findViewById(R.id.layout_dialog_coba_lagi));
+        popDialog.setIcon(android.R.drawable.stat_notify_error);
+        popDialog.setTitle("Pengecekkan Data Tanaman Gagal");
+        popDialog.setView(Viewlayout);
+        popDialog.setCancelable(false);
+        // Button OK
+        popDialog.setPositiveButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    }
+                })
+                // Button Cancel
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                finish();
+                            }
+                        });
+        popDialog.create();
+        popDialog.show();
     }
 }

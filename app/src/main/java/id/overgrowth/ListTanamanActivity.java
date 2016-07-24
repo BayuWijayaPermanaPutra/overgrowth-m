@@ -1,6 +1,11 @@
 package id.overgrowth;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,7 +13,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +54,8 @@ public class ListTanamanActivity extends AppCompatActivity {
     private AlertDialogManager alert;
     private RequestBody requestBody;
     private TextView titleToolbar;
+    private boolean statusProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +69,25 @@ public class ListTanamanActivity extends AppCompatActivity {
         progressDialog.setTitle("List Tanaman "+jenis_tanaman);
         progressDialog.setMessage("Loading..");
         progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(false);
+        progressDialog.setCancelable(true);
 
         if (session.isLoggedIn()){
             user = session.getUserDetails();
             idUser = user.get(SessionManager.KEY_IDUSER);
             progressDialog.show();
+            statusProgressDialog = true;
+            Runnable progressRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    progressDialog.cancel();
+                    if(statusProgressDialog){
+                        showDialog();
+                    }
+                }
+            };
+            Handler pdCanceller = new Handler();
+            pdCanceller.postDelayed(progressRunnable, 20000);
+
             getListKategoriTanaman();
         }
 
@@ -151,7 +174,10 @@ public class ListTanamanActivity extends AppCompatActivity {
                     ListTanamanActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            progressDialog.dismiss();
+                            if (statusProgressDialog == true){
+                                progressDialog.dismiss();
+                                statusProgressDialog = false;
+                            }
                             rvListTanaman.setLayoutManager(new LinearLayoutManager(ListTanamanActivity.this));
                             adapterTanaman = new AdListTanaman(arrayTanaman,ListTanamanActivity.this);
                             rvListTanaman.setAdapter(adapterTanaman);
@@ -165,5 +191,33 @@ public class ListTanamanActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void showDialog() {
+        final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
+        final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) findViewById(R.id.layout_dialog_coba_lagi));
+        popDialog.setIcon(android.R.drawable.stat_notify_error);
+        popDialog.setTitle("Gagal mendapatkan data tanaman");
+        popDialog.setView(Viewlayout);
+        popDialog.setCancelable(false);
+        // Button OK
+        popDialog.setPositiveButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    }
+                })
+                // Button Cancel
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                finish();
+                            }
+                        });
+        popDialog.create();
+        popDialog.show();
     }
 }

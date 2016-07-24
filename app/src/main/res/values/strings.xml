@@ -26,4 +26,8 @@
     <string name="text_deskripsitanaman">Deskripsi Tanaman</string>
     <string name="text_caramenanam">Cara Menanam</string>
     <string name="text_bacaselengkapnya">Baca selengkapnya</string>
+    <string name="text_sudahpunyabibit">Sudah punya bibit ?</string>
+    <string name="text_tanamsekarang">Tanam sekarang</string>
+    <string name="text_tanyacobalagi">Coba lagi ?</string>
+    <string name="text_pesankoneksiinternet">Pastikan smartphone kamu terhubung dengan Internet secara stabil!</string>
 </resources>

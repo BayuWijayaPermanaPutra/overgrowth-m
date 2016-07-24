@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import id.overgrowth.DetailTanamanPilihActivity;
+import id.overgrowth.DetailTanamanUserBelumTanamActivity;
 import id.overgrowth.R;
 import id.overgrowth.model.MTanamanUser;
 import id.overgrowth.utility.UrlApi;
@@ -59,6 +60,34 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
             imageTanaman = (ImageView) itemView.findViewById(R.id.image_foto_tanaman_user);
             namaTanaman = (TextView) itemView.findViewById(R.id.textv_nama_tanaman_user);
 
+
+            final Intent[] intent = new Intent[1];
+            final Bundle b = new Bundle();
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(arrayTanamanUser.get(getAdapterPosition()).getWaktuMenanam()=="null"){
+                        intent[0] = new Intent(view.getContext(), DetailTanamanUserBelumTanamActivity.class);
+                        DetailTanamanUserBelumTanamActivity.id_tanaman_user = arrayTanamanUser.get(getAdapterPosition()).getIdTanamanUser();
+                    }
+                    b.putInt("id_tanaman_user",arrayTanamanUser.get(getAdapterPosition()).getIdTanamanUser());
+                    intent[0].putExtras(b);
+                    context.startActivity(intent[0]);
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if(arrayTanamanUser.get(getAdapterPosition()).getWaktuMenanam()=="null"){
+                        intent[0] = new Intent(view.getContext(),DetailTanamanUserBelumTanamActivity.class);
+                        DetailTanamanUserBelumTanamActivity.id_tanaman_user = arrayTanamanUser.get(getAdapterPosition()).getIdTanamanUser();
+                    }
+                    b.putInt("id_tanaman_user",arrayTanamanUser.get(getAdapterPosition()).getIdTanamanUser());
+                    intent[0].putExtras(b);
+                    context.startActivity(intent[0]);
+                    return true;
+                }
+            });
         }
     }
 }

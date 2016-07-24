@@ -28,7 +28,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".DetailTanamanPilihActivity" />
         <activity android:name=".DetailDeskripsiTanamanActivity" />
-        <activity android:name=".DetailTanamanUserActivity"></activity>
+        <activity android:name=".DetailTanamanUserBelumTanamActivity" />
+        <activity android:name=".DetailCaraMenanamActivity"></activity>
     </application>
 
 </manifest>

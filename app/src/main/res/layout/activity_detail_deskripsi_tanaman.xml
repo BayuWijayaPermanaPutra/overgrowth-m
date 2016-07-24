@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:text="@string/text_deskripsitanaman"
         android:textColor="@android:color/holo_green_light"
-        android:textSize="15dp"
+        android:textSize="16dp"
         />
             <TextView
                 android:id="@+id/textv_deskripsi_tanaman_detail"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:text="@string/text_caramenanam"
         android:textColor="@android:color/holo_green_light"
-        android:textSize="15dp"
+        android:textSize="16dp"
         />
             <TextView
                 android:id="@+id/textv_cara_menanam_detail"

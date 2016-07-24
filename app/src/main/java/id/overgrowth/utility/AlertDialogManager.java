@@ -3,6 +3,10 @@ package id.overgrowth.utility;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import id.overgrowth.R;
 
@@ -10,6 +14,7 @@ import id.overgrowth.R;
  * Created by bayu_wpp on 5/26/2016.
  */
 public class AlertDialogManager {
+
     public void showAlertDialog(Context context, String title, String message) {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 

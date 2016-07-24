@@ -1,13 +1,18 @@
 package id.overgrowth;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -45,7 +50,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     SessionManager session;
     Intent intent;
     private ProgressDialog progressDialog;
-    private AlertDialogManager alert;
     private RequestBody requestBody;
 
 
@@ -58,7 +62,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void inisialisasi(){
-        alert = new AlertDialogManager();
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -74,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressDialog.setTitle("Sign In");
         progressDialog.setMessage("Loading..");
         progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(false);
+        progressDialog.setCancelable(true);
     }
 
     @Override
@@ -91,15 +94,43 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         signIn();
                         progressDialog.show();
                     } else {
-
-                        alert.showAlertDialog(this,"Error","Internet tidak bisa diakses!");
+                        showDialog();
                     }
                 } else {
-                    alert.showAlertDialog(this,"Error","Tidak terkoneksi ke Internet!\nMohon nyalakan paket data atau koneksi WiFi!");
+                    showDialog();
                 }
 
                 break;
         }
+    }
+
+    private void showDialog() {
+        final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
+        final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) findViewById(R.id.layout_dialog_coba_lagi));
+        popDialog.setIcon(android.R.drawable.stat_notify_error);
+        popDialog.setTitle("Gagal koneksi ke Internet");
+        popDialog.setView(Viewlayout);
+        popDialog.setCancelable(false);
+        // Button OK
+        popDialog.setPositiveButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    }
+                })
+                // Button Cancel
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                finish();
+                            }
+                        });
+        popDialog.create();
+        popDialog.show();
     }
 
     private void signIn() {
