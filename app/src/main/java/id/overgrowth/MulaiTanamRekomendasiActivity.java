@@ -194,7 +194,10 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
                     MulaiTanamRekomendasiActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            progressDialog.dismiss();
+                            if (statusProgressDialog == true){
+                                progressDialog.dismiss();
+                                statusProgressDialog = false;
+                            }
                             rvTanaman.setLayoutManager(new LinearLayoutManager(MulaiTanamRekomendasiActivity.this));
                             adapter = new AdTanamanRekomendasi(tanamanList,MulaiTanamRekomendasiActivity.this);
                             rvTanaman.setAdapter(adapter);

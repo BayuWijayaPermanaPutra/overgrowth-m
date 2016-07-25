@@ -3,6 +3,7 @@ package id.overgrowth;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -22,8 +23,8 @@ public class DetailDeskripsiTanamanActivity extends AppCompatActivity {
         setToolbar();
         deskripsiTanaman = getIntent().getExtras().getString("deskripsiTanaman");
         caraMenanam = getIntent().getExtras().getString("caraMenanam");
-        textVdeskripsiTanaman.setText(deskripsiTanaman);
-        textVcaraMenanam.setText(caraMenanam);
+        textVdeskripsiTanaman.setText(Html.fromHtml(deskripsiTanaman.replaceAll("\n","<br />")));
+        textVcaraMenanam.setText(Html.fromHtml(caraMenanam.replaceAll("\n","<br />")));
     }
 
     private void initView() {

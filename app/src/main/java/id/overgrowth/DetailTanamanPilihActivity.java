@@ -106,8 +106,8 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
                                     urlGambar = UrlApi.urlGambarTanaman+jObject.getString(TAG_GAMBAR);
                                     nama = jObject.getString(TAG_NAMA);
                                     lamaPanen = jObject.getInt(TAG_LAMA_PANEN);
-                                    deskripsi = unescape(Html.fromHtml(jObject.getString(TAG_DESKRIPSI)).toString());
-                                    caraMenanam = unescape(Html.fromHtml(jObject.getString(TAG_CARA_MENANAM)).toString());
+                                    deskripsi = jObject.getString(TAG_DESKRIPSI);
+                                    caraMenanam = jObject.getString(TAG_CARA_MENANAM);
                                     cocokDiMusim = jObject.getString(TAG_COCOK_DI_MUSIM);
                                     if(cocokDiMusim.equals("Hujan & Kemarau")){
                                         cocokDiMusim = "Semua Musim";
@@ -129,7 +129,7 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
                                 txtVLamaPanen.setText(String.valueOf(lamaPanen)+" hari");
                                 txtVCocokDiMusim.setText(cocokDiMusim);
                                 String desShow = deskripsi + ". Cara Menanam : " + caraMenanam;
-                                txtVDeskripsi.setText(desShow);
+                                txtVDeskripsi.setText(Html.fromHtml(desShow.replaceAll("\n","<br />")));
                                 buttonPilih.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -159,9 +159,6 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
         }
     }
 
-    private String unescape(String description) {
-        return description.replaceAll("\\\\n", "\\\n");
-    }
 
     private void initView(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
