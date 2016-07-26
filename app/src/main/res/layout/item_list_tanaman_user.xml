@@ -27,16 +27,30 @@
             android:layout_gravity="center_vertical"
             />
     </LinearLayout>
-        <Button
+    <Button
             android:id="@+id/button_tanam_tanaman_user"
             android:layout_width="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_height="25dp"
-            android:text="Tanam"
-            android:background="@drawable/button_shape"
-            android:textColor="@color/white"
+            android:text="+ Tanam"
+            android:textColor="@color/colorPrimaryDark"
+            android:background="@drawable/button_shape_transparent"
+
+            android:visibility="invisible"
             style="?android:attr/buttonStyleSmall"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            />
+            android:layout_centerVertical="true" />
+    <Button
+        android:id="@+id/button_hapus_tanaman_user"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_height="25dp"
+        android:text="Ditanam"
+        android:visibility="invisible"
+        android:background="@drawable/button_shape"
+        android:textColor="@color/white"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        />
 </RelativeLayout>

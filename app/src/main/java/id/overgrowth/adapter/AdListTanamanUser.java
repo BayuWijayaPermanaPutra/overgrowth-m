@@ -66,6 +66,11 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
         Context context = ((ViewHolder) holder).imageTanaman.getContext();
         Picasso.with(context).load(UrlApi.urlGambarTanaman+tanaman.getFotoTanaman()).into(((ViewHolder)holder).imageTanaman);
         holder.namaTanaman.setText(tanaman.getNamaTanaman());
+        if (tanaman.getWaktuMenanam() == "null"){
+            holder.buttonTanam.setVisibility(View.VISIBLE);
+        } else {
+            holder.buttonHapus.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -76,8 +81,7 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView namaTanaman;
         ImageView imageTanaman;
-        Button buttonTanam;
-        private int idTanamanUser;
+        Button buttonTanam,buttonHapus;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -85,6 +89,8 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
             imageTanaman = (ImageView) itemView.findViewById(R.id.image_foto_tanaman_user);
             namaTanaman = (TextView) itemView.findViewById(R.id.textv_nama_tanaman_user);
             buttonTanam = (Button) itemView.findViewById(R.id.button_tanam_tanaman_user);
+            buttonHapus = (Button) itemView.findViewById(R.id.button_hapus_tanaman_user);
+
             session = new SessionManager(context);
 
             if (session.isLoggedIn()){
@@ -96,6 +102,8 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
 */
             final Intent[] intent = new Intent[1];
             final Bundle b = new Bundle();
+
+
             buttonTanam.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
