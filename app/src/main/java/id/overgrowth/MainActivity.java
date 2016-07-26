@@ -63,18 +63,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        createObjects();
+        if(!session.isLoggedIn()){
+            Intent login = new Intent(this, LoginActivity.class);
+            startActivity(login);
+            finish();
+            return;
+        }
         if(InternetCheck.isNetworkConnected(this)){
             if (InternetCheck.isNetworkAvailable(this)) {
                 initView();
-                if(!session.isLoggedIn()){
-                    Intent login = new Intent(this, LoginActivity.class);
-                    startActivity(login);
-                    finish();
-                    return;
-                }
-
-
                 setSupportActionBar(mToolbar);
                 getSupportActionBar().setDisplayShowHomeEnabled(true);
                 ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -122,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         titleToolbar = (TextView) findViewById(R.id.title_toolbar);
+
+    }
+    private void createObjects(){
         session = new SessionManager(this);
         progressDialog = new ProgressDialog(this);
     }
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         };
         Handler pdCanceller = new Handler();
-        pdCanceller.postDelayed(progressRunnable, 18000);
+        pdCanceller.postDelayed(progressRunnable, 25000);
 
         requestBody = new FormBody.Builder()
                 .add("id_user", idUser)

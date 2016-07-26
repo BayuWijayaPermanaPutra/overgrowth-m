@@ -5,8 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,14 +23,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
-import id.overgrowth.model.MTanamanUser;
-import id.overgrowth.utility.AlertDialogManager;
 import id.overgrowth.utility.InternetCheck;
 import id.overgrowth.utility.OkHttpRequest;
 import id.overgrowth.utility.SessionManager;
@@ -51,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     Intent intent;
     private ProgressDialog progressDialog;
     private RequestBody requestBody;
+    private boolean statusProgressDialog;
 
 
     @Override
@@ -93,8 +91,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     if (InternetCheck.isNetworkAvailable(LoginActivity.this)){
                         signIn();
                         progressDialog.show();
+                        statusProgressDialog = true;
+                        Runnable progressRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.cancel();
+                                if(statusProgressDialog){
+                                    showDialog();
+                                }
+                            }
+                        };
+                        Handler pdCanceller = new Handler();
+                        pdCanceller.postDelayed(progressRunnable, 40000);
+
                     } else {
                         showDialog();
+
                     }
                 } else {
                     showDialog();
@@ -109,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) findViewById(R.id.layout_dialog_coba_lagi));
         popDialog.setIcon(android.R.drawable.stat_notify_error);
-        popDialog.setTitle("Gagal koneksi ke Internet");
+        popDialog.setTitle("Gagal Login");
         popDialog.setView(Viewlayout);
         popDialog.setCancelable(false);
         // Button OK
@@ -204,7 +216,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     LoginActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            progressDialog.dismiss();
+                            if (statusProgressDialog == true){
+                                progressDialog.dismiss();
+                                statusProgressDialog = false;
+                            }
                             Toast.makeText(LoginActivity.this, finalMessage, Toast.LENGTH_SHORT).show();
                             if(finalStatusCode == 200) {
                                 intent = new Intent(getBaseContext(),MainActivity.class);
@@ -219,6 +234,4 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             e.printStackTrace();
         }
     }
-
-
 }

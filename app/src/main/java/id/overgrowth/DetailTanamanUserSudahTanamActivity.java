@@ -8,10 +8,8 @@ import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -32,30 +30,33 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Response;
 
-public class DetailTanamanUserBelumTanamActivity extends AppCompatActivity {
+public class DetailTanamanUserSudahTanamActivity extends AppCompatActivity {
     private static final String TAG_ID = "id_tanaman_user";
     private static final String TAG_NAMA = "nama_tanaman";
     private static final String TAG_GAMBAR = "foto_tanaman";
-    private static final String TAG_CARA_MENANAM = "cara_menanam";
-    private Toolbar toolbar;
-    private TextView titleToolbar;
+    private static final String TAG_COCOK_DI_MUSIM = "cocokdimusim";
+    private static final String TAG_LAMA_PANEN = "lama_panen";
+    private String namaTanaman, urlGambar, lamaMenujuPanen, lamaPanen, cocokDiMusim;
+
     public static int id_tanaman_user;
-    private ImageView imgVTanaman;
-    private TextView txtVNama, txtVCaraMenanam, txtVBacaSelengkapnya;
-    private Button btnTanamSekarang;
-    private AlertDialogManager alert;    
-    private SessionManager session;
+    private TextView textVnamaTanaman, textVlamaMenujuPanen, textVlamaPanen, textVcocokDiMusim;
+    private ImageView imageTanaman;
+    private Toolbar toolbar;
     private HashMap<String, String> user;
     private String idUser;
+    private TextView titleToolbar;
     FormBody formBody;
-    private String urlGambar, namaTanaman, caraMenanam;
+    private AlertDialogManager alert;
+    private SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_tanaman_user_belum_tanam);
+        setContentView(R.layout.activity_detail_tanaman_user_sudah_tanam);
+        id_tanaman_user = getIntent().getExtras().getInt("id_tanaman_user");
         createObjects();
-        if(InternetCheck.isNetworkConnected(DetailTanamanUserBelumTanamActivity.this)){
-            if (InternetCheck.isNetworkAvailable(DetailTanamanUserBelumTanamActivity.this)){
+        if(InternetCheck.isNetworkConnected(DetailTanamanUserSudahTanamActivity.this)){
+            if (InternetCheck.isNetworkAvailable(DetailTanamanUserSudahTanamActivity.this)){
                 if (session.isLoggedIn()){
                     user = session.getUserDetails();
                     idUser = user.get(SessionManager.KEY_IDUSER);
@@ -91,9 +92,15 @@ public class DetailTanamanUserBelumTanamActivity extends AppCompatActivity {
 
                                                 Log.i("getID_tanamanuser", jObject.getString(TAG_ID));
                                                 Log.i("getdatatanamanuser", jObject.getString(TAG_NAMA));
+
                                                 namaTanaman = jObject.getString(TAG_NAMA);
                                                 urlGambar = UrlApi.urlGambarTanaman+jObject.getString(TAG_GAMBAR);
-                                                caraMenanam = Html.fromHtml(jObject.getString(TAG_CARA_MENANAM)).toString();
+                                                lamaMenujuPanen = jObject.getString(TAG_LAMA_PANEN)+" hari menuju panen";
+                                                lamaPanen= jObject.getString(TAG_LAMA_PANEN)+" hari";
+                                                cocokDiMusim = jObject.getString(TAG_COCOK_DI_MUSIM);
+                                                if(cocokDiMusim.equals("Hujan & Kemarau")){
+                                                    cocokDiMusim = "Semua Musim";
+                                                }
                                             }
 
                                         }
@@ -103,31 +110,16 @@ public class DetailTanamanUserBelumTanamActivity extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
 
-                                    DetailTanamanUserBelumTanamActivity.this.runOnUiThread(new Runnable() {
+                                    DetailTanamanUserSudahTanamActivity.this.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             initView();
                                             setToolbar(namaTanaman);
-                                            txtVNama.setText(namaTanaman);
-                                            Picasso.with(getBaseContext()).load(urlGambar).into(imgVTanaman);
-                                            txtVCaraMenanam.setText(caraMenanam);
-                                            btnTanamSekarang.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    prosesTanamTanaman();
-                                                }
-                                            });
-
-                                            txtVBacaSelengkapnya.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    Bundle b = new Bundle();
-                                                    Intent intent = new Intent(DetailTanamanUserBelumTanamActivity.this, DetailCaraMenanamActivity.class);
-                                                    b.putString("caraMenanam",caraMenanam);
-                                                    intent.putExtras(b);
-                                                    startActivity(intent);
-                                                }
-                                            });
+                                            textVnamaTanaman.setText(namaTanaman);
+                                            Picasso.with(getBaseContext()).load(urlGambar).into(imageTanaman);
+                                            textVlamaMenujuPanen.setText(lamaMenujuPanen);
+                                            textVlamaPanen.setText(lamaPanen);
+                                            textVcocokDiMusim.setText(cocokDiMusim);
                                         }
                                     });
                                 }
@@ -144,14 +136,15 @@ public class DetailTanamanUserBelumTanamActivity extends AppCompatActivity {
         } else {
             alert.showAlertDialog(this,"Error","Tidak terkoneksi ke Internet!\nMohon nyalakan paket data atau koneksi WiFi!");
         }
-            
     }
-    private void initView() {
-        imgVTanaman = (ImageView) findViewById(R.id.image_foto_detail_tanamanuser);
-        txtVNama = (TextView) findViewById(R.id.textv_namadetail_tanamanuser);
-        txtVCaraMenanam = (TextView) findViewById(R.id.textv_cara_menanam_tanamanuser);
-        txtVBacaSelengkapnya = (TextView) findViewById(R.id.textv_baca_selengkapnya_detail_tanamanuser);
-        btnTanamSekarang = (Button) findViewById(R.id.button_tanam_sekarang_detail_tanamanuser);
+
+
+    private void initView(){
+        textVnamaTanaman = (TextView) findViewById(R.id.textv_namadetail_tanamanuser_sudahtanam);
+        imageTanaman = (ImageView) findViewById(R.id.image_foto_detail_tanamanuser_sudahtanam);
+        textVlamaMenujuPanen = (TextView) findViewById(R.id.textv_lama_menuju_panen_detailtanamanuser);
+        textVlamaPanen = (TextView) findViewById(R.id.textv_lama_panen_tanaman_hari_tanamanuser);
+        textVcocokDiMusim = (TextView) findViewById(R.id.textv_tanamancocokdimusim_tanamanuser);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         titleToolbar = (TextView) findViewById(R.id.title_toolbar);
     }
@@ -159,6 +152,7 @@ public class DetailTanamanUserBelumTanamActivity extends AppCompatActivity {
         alert = new AlertDialogManager();
         session = new SessionManager(this);
     }
+
     private void setToolbar(String title){
         setSupportActionBar(toolbar);
         titleToolbar.setText(title);
@@ -173,55 +167,5 @@ public class DetailTanamanUserBelumTanamActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void prosesTanamTanaman(){
-        Toast.makeText(DetailTanamanUserBelumTanamActivity.this, "Button Tanam di klik", Toast.LENGTH_SHORT).show();
-        formBody = new FormBody.Builder()
-                .add("id_user", idUser)
-                .add("id_tanaman_user", String.valueOf(id_tanaman_user))
-                .build();
-        try {
-            OkHttpRequest.postDataToServer(UrlApi.urlTanamTanamanUser,formBody).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                    Log.e("errortanamtanaman", e.getMessage());
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    int statusCode;
-                    String message = null;
-                    try {
-                        Log.i("getdatatanamtanaman", "response detail tanaman success");
-
-                        JSONObject jsonObject = new JSONObject(response.body().string());
-                        statusCode = jsonObject.getInt("statusCode");
-                        message = jsonObject.getString("message");
-                        Log.i("gettanamtanamanstatus", String.valueOf(statusCode));
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    final String finalMessage = message;
-                    final Intent[] intent = new Intent[1];
-                    DetailTanamanUserBelumTanamActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(DetailTanamanUserBelumTanamActivity.this, finalMessage, Toast.LENGTH_LONG).show();
-                            intent[0] = new Intent(DetailTanamanUserBelumTanamActivity.this, MainActivity.class);
-                            startActivity(intent[0]);
-                            finish();
-                        }
-                    });
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

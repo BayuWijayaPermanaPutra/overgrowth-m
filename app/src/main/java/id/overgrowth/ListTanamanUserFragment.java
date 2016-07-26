@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,11 +58,18 @@ public class ListTanamanUserFragment extends Fragment {
     private FloatingActionButton fabMain;
     private FloatingActionButton fab1;
     private FloatingActionButton fab2;
+    private TextView text_fab1;
+    private TextView text_fab2;
     private boolean FAB_Status = false;
     Animation show_fab_1;
     Animation hide_fab_1;
     Animation show_fab_2;
     Animation hide_fab_2;
+    Animation show_text_fab1;
+    Animation hide_text_fab1;
+    Animation show_text_fab2;
+    Animation hide_text_fab2;
+
     Intent intent;
     ProgressDialog progressDialog;
     private boolean statusProgressDialog;
@@ -91,9 +99,11 @@ public class ListTanamanUserFragment extends Fragment {
             public void onClick(View view) {
                 if (FAB_Status == false) {
                     expandFAB();
+                    expandTextFAB();
                     FAB_Status = true;
                 } else {
                     hideFAB();
+                    hideTextFAB();
                     FAB_Status = false;
                 }
             }
@@ -103,9 +113,11 @@ public class ListTanamanUserFragment extends Fragment {
             public void onClick(View v) {
                 if (FAB_Status == false) {
                     expandFAB();
+                    expandTextFAB();
                     FAB_Status = true;
                 } else {
                     hideFAB();
+                    hideTextFAB();
                     FAB_Status = false;
                 }
                 intent = new Intent(getActivity(),PilihKategoriActivity.class);
@@ -118,9 +130,11 @@ public class ListTanamanUserFragment extends Fragment {
             public void onClick(View v) {
                 if (FAB_Status == false) {
                     expandFAB();
+                    expandTextFAB();
                     FAB_Status = true;
                 } else {
                     hideFAB();
+                    hideTextFAB();
                     FAB_Status = false;
                 }
                 intent = new Intent(getActivity(),MulaiTanamPilihanActivity.class);
@@ -135,12 +149,18 @@ public class ListTanamanUserFragment extends Fragment {
         fabMain = (FloatingActionButton) rootView.findViewById(R.id.fab_add_tanaman_user);
         fab1 = (FloatingActionButton) rootView.findViewById(R.id.fab_1);
         fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab_2);
-
+        text_fab1 = (TextView) rootView.findViewById(R.id.text_pilih_langsung_fab);
+        text_fab2 = (TextView) rootView.findViewById(R.id.text_rekomendasi_fab);
         //Animations
         show_fab_1 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab1_show);
         hide_fab_1 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab1_hide);
         show_fab_2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab2_show);
         hide_fab_2 = AnimationUtils.loadAnimation(getActivity(), R.anim.fab2_hide);
+
+        show_text_fab1 = AnimationUtils.loadAnimation(getActivity(),R.anim.text_fab1_show);
+        hide_text_fab1 = AnimationUtils.loadAnimation(getActivity(),R.anim.text_fab1_hide);
+        show_text_fab2 = AnimationUtils.loadAnimation(getActivity(),R.anim.text_fab2_show);
+        hide_text_fab2 = AnimationUtils.loadAnimation(getActivity(),R.anim.text_fab2_hide);
 
         progressDialog = new ProgressDialog(getActivity());
     }
@@ -165,7 +185,6 @@ public class ListTanamanUserFragment extends Fragment {
         fab2.startAnimation(show_fab_2);
         fab2.setClickable(true);
     }
-
     private void hideFAB(){
         //Floating Action Button 1
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) fab1.getLayoutParams();
@@ -182,6 +201,42 @@ public class ListTanamanUserFragment extends Fragment {
         fab2.setLayoutParams(layoutParams2);
         fab2.startAnimation(hide_fab_2);
         fab2.setClickable(false);
+    }
+
+    private void expandTextFAB(){
+        //Floating Action Button 1
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) text_fab1.getLayoutParams();
+        layoutParams.rightMargin += (int) (text_fab1.getWidth() * 2.0);
+        layoutParams.bottomMargin += (int) (text_fab1.getHeight() * 1.3);
+        text_fab1.setLayoutParams(layoutParams);
+        text_fab1.startAnimation(show_fab_1);
+        text_fab1.setClickable(true);
+
+        //Floating Action Button 2
+        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) text_fab2.getLayoutParams();
+        layoutParams2.rightMargin += (int) (text_fab2.getWidth() * 1.0);
+        layoutParams2.bottomMargin += (int) (text_fab2.getHeight() * 3.7);
+        text_fab2.setLayoutParams(layoutParams2);
+        text_fab2.startAnimation(show_fab_2);
+        text_fab2.setClickable(true);
+    }
+
+    private void hideTextFAB(){
+        //Floating Action Button 1
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) text_fab1.getLayoutParams();
+        layoutParams.rightMargin -= (int) (text_fab1.getWidth() * 2.0);
+        layoutParams.bottomMargin -= (int) (text_fab1.getHeight() * 1.3);
+        text_fab1.setLayoutParams(layoutParams);
+        text_fab1.startAnimation(hide_fab_1);
+        text_fab1.setClickable(false);
+
+        //Floating Action Button 2
+        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) text_fab2.getLayoutParams();
+        layoutParams2.rightMargin -= (int) (text_fab2.getWidth() * 1.0);
+        layoutParams2.bottomMargin -= (int) (text_fab2.getHeight() * 3.7);
+        text_fab2.setLayoutParams(layoutParams2);
+        text_fab2.startAnimation(hide_fab_2);
+        text_fab2.setClickable(false);
     }
 
     public void dummyTanamanUser(){
@@ -212,7 +267,7 @@ public class ListTanamanUserFragment extends Fragment {
             }
         };
         Handler pdCanceller = new Handler();
-        pdCanceller.postDelayed(progressRunnable, 15000);
+        pdCanceller.postDelayed(progressRunnable, 22000);
 
         requestBody = new FormBody.Builder()
                 .add("id_user", idUser)
@@ -276,6 +331,7 @@ public class ListTanamanUserFragment extends Fragment {
                                     public boolean onTouch(View v, MotionEvent event) {
                                         if (FAB_Status) {
                                             hideFAB();
+                                            hideTextFAB();
                                             FAB_Status = false;
                                         }
                                         return false;

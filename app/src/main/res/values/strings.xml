@@ -30,4 +30,5 @@
     <string name="text_tanamsekarang">Tanam sekarang</string>
     <string name="text_tanyacobalagi">Coba lagi ?</string>
     <string name="text_pesankoneksiinternet">Pastikan smartphone kamu terhubung dengan Internet secara stabil!</string>
+    <string name="text_data_tanaman">Data Tanaman</string>
 </resources>

@@ -4,25 +4,41 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="10dp"
-        android:src="@mipmap/ic_plant"
-        android:visibility="invisible"
-        app:backgroundTint="@color/colorAccent"
-        app:fabSize="mini" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="10dp"
-        android:src="@mipmap/ic_toolsiram"
-        android:visibility="invisible"
-        app:backgroundTint="@color/colorAccent"
-        app:fabSize="mini" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="10dp"
+            android:src="@mipmap/ic_plant"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorAccent"
+            app:fabSize="mini" />
+        <TextView
+            android:id="@+id/text_pilih_langsung_fab"
+            android:layout_gravity="bottom|end"
+            android:visibility="invisible"
+            android:layout_margin="10dp"
+            android:text="@string/text_data_tanaman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="10dp"
+            android:src="@mipmap/ic_toolsiram"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorAccent"
+            app:fabSize="mini"
+            />
+        <TextView
+            android:id="@+id/text_rekomendasi_fab"
+            android:layout_gravity="bottom|end"
+            android:visibility="invisible"
+            android:layout_margin="10dp"
+            android:text="@string/text_rekomendasi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 </FrameLayout>

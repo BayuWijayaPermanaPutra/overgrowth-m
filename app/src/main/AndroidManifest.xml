@@ -29,7 +29,8 @@
         <activity android:name=".DetailTanamanPilihActivity" />
         <activity android:name=".DetailDeskripsiTanamanActivity" />
         <activity android:name=".DetailTanamanUserBelumTanamActivity" />
-        <activity android:name=".DetailCaraMenanamActivity"></activity>
+        <activity android:name=".DetailCaraMenanamActivity" />
+        <activity android:name=".DetailTanamanUserSudahTanamActivity"></activity>
     </application>
 
 </manifest>

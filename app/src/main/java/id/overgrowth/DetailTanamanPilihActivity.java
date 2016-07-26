@@ -128,8 +128,8 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
                                 Picasso.with(getBaseContext()).load(urlGambar).into(imageVGambar);
                                 txtVLamaPanen.setText(String.valueOf(lamaPanen)+" hari");
                                 txtVCocokDiMusim.setText(cocokDiMusim);
-                                String desShow = deskripsi + ". Cara Menanam : " + caraMenanam;
-                                txtVDeskripsi.setText(Html.fromHtml(desShow.replaceAll("\n","<br />")));
+                                String desShow = deskripsi + ".<br> Cara Menanam : " + caraMenanam;
+                                txtVDeskripsi.setText(Html.fromHtml(desShow.replaceAll("\n","<br>")));
                                 buttonPilih.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {

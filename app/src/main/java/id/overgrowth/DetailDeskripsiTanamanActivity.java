@@ -22,9 +22,11 @@ public class DetailDeskripsiTanamanActivity extends AppCompatActivity {
         initView();
         setToolbar();
         deskripsiTanaman = getIntent().getExtras().getString("deskripsiTanaman");
+        deskripsiTanaman.replaceAll("\n","<br />");
         caraMenanam = getIntent().getExtras().getString("caraMenanam");
-        textVdeskripsiTanaman.setText(Html.fromHtml(deskripsiTanaman.replaceAll("\n","<br />")));
-        textVcaraMenanam.setText(Html.fromHtml(caraMenanam.replaceAll("\n","<br />")));
+        caraMenanam.replaceAll("\n","<br />");
+        textVdeskripsiTanaman.setText(Html.fromHtml(deskripsiTanaman));
+        textVcaraMenanam.setText(Html.fromHtml(caraMenanam));
     }
 
     private void initView() {
