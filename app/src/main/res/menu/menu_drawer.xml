@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single"
+        android:id="@+id/grup1">
+        <item
+            android:id="@+id/nav_info_tanaman"
+            android:icon="@mipmap/ic_info_outline"
+            android:title="@string/nav_item_lihat_infotanaman" />
+        <item
+            android:id="@+id/nav_pengaturan"
+            android:icon="@mipmap/ic_info_outline"
+            android:title="@string/nav_item_pengaturan" />
+    </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/grup2"
+        >
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@mipmap/ic_info_outline"
+            android:title="@string/nav_item_logout"
+            />
+    </group>
+</menu>

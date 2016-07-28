@@ -113,7 +113,6 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
                                         cocokDiMusim = "Semua Musim";
                                     }
                                 }
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

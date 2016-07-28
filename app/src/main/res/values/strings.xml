@@ -31,4 +31,12 @@
     <string name="text_tanyacobalagi">Coba lagi ?</string>
     <string name="text_pesankoneksiinternet">Pastikan smartphone kamu terhubung dengan Internet secara stabil!</string>
     <string name="text_data_tanaman">Data Tanaman</string>
+    <string name="nav_item_lihat_infotanaman">Tanaman</string>
+    <string name="nav_item_pengaturan">Pengaturan</string>
+    <string name="nav_item_logout">Logout</string>
+    <string name="text_pengaturan_overgrowth">Pengaturan Overgrowth</string>
+    <string name="text_hapus_tanaman">Hapus Tanaman!</string>
+    <string name="text_panen_tanaman">Tanaman Sudah Dipanen</string>
+    <string name="text_pesanhapustanaman">Tanaman akan dihapus dari galeri tanaman peliharaan kamu</string>
+    <string name="text_tanya_hapustanaman">Anda yakin tidak ingin memelihara tanaman ini lagi ?</string>
 </resources>

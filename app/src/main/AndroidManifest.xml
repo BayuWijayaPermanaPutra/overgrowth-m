@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- permission required to use Alarm Manager -->
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <!-- Register the Alarm Receiver -->
+    <receiver android:name="com.example.alarmmanagernotifcation.AlarmReceiver"/>
 
     <application
         android:allowBackup="true"
@@ -30,7 +35,17 @@
         <activity android:name=".DetailDeskripsiTanamanActivity" />
         <activity android:name=".DetailTanamanUserBelumTanamActivity" />
         <activity android:name=".DetailCaraMenanamActivity" />
-        <activity android:name=".DetailTanamanUserSudahTanamActivity"></activity>
+        <activity android:name=".DetailTanamanUserSudahTanamActivity" />
+        <activity android:name=".PengaturanActivity"></activity>
+
+        <receiver android:name=".utility.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Will not be called unless the application explicitly enables it -->
+
     </application>
 
 </manifest>

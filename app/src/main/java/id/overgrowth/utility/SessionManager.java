@@ -23,6 +23,8 @@ public class SessionManager {
 
     private static final String IS_LOGIN = "IsLoggedIn";
 
+    private static final String ALARM = "Alarm";
+
     private static final String IS_HAVE_PLANTS = "IsHavePlants";
 
     public static final String KEY_IDUSER = "iduser";
@@ -61,6 +63,7 @@ public class SessionManager {
         editor.commit();
     }
 
+
     public void logoutUser() {
         editor.clear();
         editor.commit();
@@ -83,6 +86,19 @@ public class SessionManager {
 
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
+    }
+
+    public boolean alarmAktif() {
+        return pref.getBoolean(ALARM, false);//inisialisasi
+    }
+
+    public void setAlarm() {
+        editor.putBoolean(ALARM, true);
+        editor.commit();
+    }
+    public void unsetAlarm() {
+        editor.remove(ALARM);
+        editor.commit();
     }
 
     public boolean isHavePlants() {

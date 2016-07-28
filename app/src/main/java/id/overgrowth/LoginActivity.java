@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
         final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) findViewById(R.id.layout_dialog_coba_lagi));
-        popDialog.setIcon(android.R.drawable.stat_notify_error);
+        popDialog.setIcon(R.mipmap.ic_alert);
         popDialog.setTitle("Gagal Login");
         popDialog.setView(Viewlayout);
         popDialog.setCancelable(false);
@@ -173,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             url_foto = String.valueOf(urlFoto);
 
             session.createLoginSession(id_user, nama, email, url_foto);
-
+            session.setAlarm();
             if(session.isLoggedIn()) {
                 finishLogin();
             }

@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="id.overgrowth.DetailTanamanUserSudahTanamActivity">
     <include layout="@layout/toolbar" />
     <LinearLayout
@@ -157,4 +158,28 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
+    <Button
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/text_hapus_tanaman"
+            android:background="@drawable/button_shape_red"
+            android:id="@+id/button_hapus_tanamanuser_detailtanaman"
+            android:layout_width="200dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+        android:textAllCaps="false"
+            android:layout_height="40dp" />
+    <Button
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="invisible"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/text_panen_tanaman"
+        android:background="@drawable/button_shape_transparent"
+        android:id="@+id/button_panen_tanamanuser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

@@ -108,6 +108,7 @@ public class ListTanamanUserFragment extends Fragment {
                 }
             }
         });
+
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +127,39 @@ public class ListTanamanUserFragment extends Fragment {
         });
 
         fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FAB_Status == false) {
+                    expandFAB();
+                    expandTextFAB();
+                    FAB_Status = true;
+                } else {
+                    hideFAB();
+                    hideTextFAB();
+                    FAB_Status = false;
+                }
+                intent = new Intent(getActivity(),MulaiTanamPilihanActivity.class);
+                startActivity(intent);
+            }
+        });
+        text_fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FAB_Status == false) {
+                    expandFAB();
+                    expandTextFAB();
+                    FAB_Status = true;
+                } else {
+                    hideFAB();
+                    hideTextFAB();
+                    FAB_Status = false;
+                }
+                intent = new Intent(getActivity(),PilihKategoriActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        text_fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (FAB_Status == false) {
@@ -206,16 +240,16 @@ public class ListTanamanUserFragment extends Fragment {
     private void expandTextFAB(){
         //Floating Action Button 1
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) text_fab1.getLayoutParams();
-        layoutParams.rightMargin += (int) (text_fab1.getWidth() * 2.0);
-        layoutParams.bottomMargin += (int) (text_fab1.getHeight() * 1.3);
+        layoutParams.rightMargin += (int) (text_fab1.getWidth() * 1.4);
+        layoutParams.bottomMargin += (int) (text_fab1.getHeight() * 2.8);
         text_fab1.setLayoutParams(layoutParams);
         text_fab1.startAnimation(show_fab_1);
         text_fab1.setClickable(true);
 
         //Floating Action Button 2
         FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) text_fab2.getLayoutParams();
-        layoutParams2.rightMargin += (int) (text_fab2.getWidth() * 1.0);
-        layoutParams2.bottomMargin += (int) (text_fab2.getHeight() * 3.7);
+        layoutParams2.rightMargin += (int) (text_fab2.getWidth() * 1.1);
+        layoutParams2.bottomMargin += (int) (text_fab2.getHeight() * 5.2);
         text_fab2.setLayoutParams(layoutParams2);
         text_fab2.startAnimation(show_fab_2);
         text_fab2.setClickable(true);
@@ -224,16 +258,16 @@ public class ListTanamanUserFragment extends Fragment {
     private void hideTextFAB(){
         //Floating Action Button 1
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) text_fab1.getLayoutParams();
-        layoutParams.rightMargin -= (int) (text_fab1.getWidth() * 2.0);
-        layoutParams.bottomMargin -= (int) (text_fab1.getHeight() * 1.3);
+        layoutParams.rightMargin -= (int) (text_fab1.getWidth() * 1.4);
+        layoutParams.bottomMargin -= (int) (text_fab1.getHeight() * 2.8);
         text_fab1.setLayoutParams(layoutParams);
         text_fab1.startAnimation(hide_fab_1);
         text_fab1.setClickable(false);
 
         //Floating Action Button 2
         FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) text_fab2.getLayoutParams();
-        layoutParams2.rightMargin -= (int) (text_fab2.getWidth() * 1.0);
-        layoutParams2.bottomMargin -= (int) (text_fab2.getHeight() * 3.7);
+        layoutParams2.rightMargin -= (int) (text_fab2.getWidth() * 1.1);
+        layoutParams2.bottomMargin -= (int) (text_fab2.getHeight() * 5.2);
         text_fab2.setLayoutParams(layoutParams2);
         text_fab2.startAnimation(hide_fab_2);
         text_fab2.setClickable(false);
@@ -254,7 +288,7 @@ public class ListTanamanUserFragment extends Fragment {
         progressDialog.setTitle("Load Data Tanaman Kamu");
         progressDialog.setMessage("Loading..");
         progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(true);
+        progressDialog.setCancelable(false);
         progressDialog.show();
         statusProgressDialog = true;
         Runnable progressRunnable = new Runnable() {
@@ -351,8 +385,8 @@ public class ListTanamanUserFragment extends Fragment {
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(getActivity());
         final LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) getActivity().findViewById(R.id.layout_dialog_coba_lagi));
-        popDialog.setIcon(android.R.drawable.stat_notify_error);
-        popDialog.setTitle("Gagal koneksi ke Internet");
+        popDialog.setIcon(R.mipmap.ic_alert);
+        popDialog.setTitle("Gagal Load Data Tanaman Kamu");
         popDialog.setView(Viewlayout);
         popDialog.setCancelable(false);
         // Button OK

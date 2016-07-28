@@ -1,7 +1,8 @@
 package id.overgrowth;
 
-import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,7 +11,6 @@ import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -30,9 +31,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-import id.overgrowth.utility.AlertDialogManager;
+import id.overgrowth.utility.AlarmReceiver;
 import id.overgrowth.utility.InternetCheck;
 import id.overgrowth.utility.OkHttpRequest;
 import id.overgrowth.utility.SessionManager;
@@ -43,7 +46,7 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     DrawerLayout drawer;
     NavigationView navigationView;
     Toolbar mToolbar;
@@ -53,24 +56,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView fotoUser;
     private TextView namaUser;
     private TextView emailUser;
-    private TextView logout;
     private RequestBody requestBody;
     private TextView titleToolbar;
     ProgressDialog progressDialog;
     private boolean statusProgressDialog;
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         createObjects();
-        if(!session.isLoggedIn()){
+        if (!session.isLoggedIn()) {
             Intent login = new Intent(this, LoginActivity.class);
             startActivity(login);
             finish();
             return;
         }
-        if(InternetCheck.isNetworkConnected(this)){
+        if (InternetCheck.isNetworkConnected(this)) {
             if (InternetCheck.isNetworkAvailable(this)) {
                 initView();
                 setSupportActionBar(mToolbar);
@@ -87,21 +90,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
                 //header
-                View header = LayoutInflater.from(this).inflate(R.layout.nav_header,null);
+                View header = LayoutInflater.from(this).inflate(R.layout.nav_header, null);
                 navigationView.addHeaderView(header);
+                navigationView.inflateMenu(R.menu.menu_drawer);
+                navigationView.setNavigationItemSelectedListener(navItemSelect);
 
-                if (session.isLoggedIn()){
+                if (session.isLoggedIn()) {
                     user = session.getUserDetails();
                     fotoUser = (ImageView) findViewById(R.id.image_foto_header);
                     emailUser = (TextView) findViewById(R.id.txt_email_header);
                     namaUser = (TextView) findViewById(R.id.txt_nama_header);
-                    logout = (TextView) findViewById(R.id.txt_button_logout_header);
 
                     idUser = user.get(SessionManager.KEY_IDUSER);
                     Picasso.with(getBaseContext()).load(user.get(SessionManager.KEY_URL_FOTO_USER)).into(fotoUser);
                     namaUser.setText(user.get(SessionManager.KEY_NAMAUSER));
                     emailUser.setText(user.get(SessionManager.KEY_EMAILUSER));
-                    logout.setOnClickListener(this);
                 }
                 cekTanamanUser();
             } else {
@@ -109,11 +112,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showDialog();
             }
         } else {
-           //alert.showAlertDialog(this,"Error","Tidak terkoneksi ke Internet!\nMohon nyalakan paket data atau koneksi WiFi!");
+            //alert.showAlertDialog(this,"Error","Tidak terkoneksi ke Internet!\nMohon nyalakan paket data atau koneksi WiFi!");
             showDialog();
         }
+
+                /* Retrieve a PendingIntent that will perform a broadcast */
+        Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+        if(session.alarmAktif()) {
+            //To do if ON
+            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            int interval = 1000 * 60 * 20;
+        /* Set the alarm to start at 10:30 AM */
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 8);
+            calendar.set(Calendar.MINUTE, 0);
+
+        /* Repeating on every 20 minutes interval */
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    1000 * 60 * 1440, pendingIntent);
+        } else {
+            //To do if OFF
+            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            manager.cancel(pendingIntent);
+        }
+
     }
 
+    NavigationView.OnNavigationItemSelectedListener navItemSelect = new NavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(MenuItem item) {
+            item.setCheckable(true);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            drawer.closeDrawer(GravityCompat.START);
+            TextView textTitle = (TextView) findViewById(R.id.title_toolbar);
+            Intent intent;
+            switch (item.getItemId()) {
+                case R.id.nav_info_tanaman:
+                    intent = new Intent(MainActivity.this, PilihKategoriActivity.class);
+                    startActivity(intent);
+                    navigationView.getMenu().getItem(0).setChecked(true);
+                    return true;
+                case R.id.nav_pengaturan:
+                    intent = new Intent(MainActivity.this, PengaturanActivity.class);
+                    startActivity(intent);
+                    navigationView.getMenu().getItem(1).setChecked(true);
+                    return true;
+                case R.id.nav_logout :
+                    logoutUserAccount();
+                    return true;
+                default:
+                    return true;
+            }
+        }
+    };
 
     private void initView() {
         navigationView = (NavigationView) findViewById(R.id.fragment_navigation_drawer);
@@ -123,8 +176,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     private void createObjects(){
-        session = new SessionManager(this);
-        progressDialog = new ProgressDialog(this);
+        session = new SessionManager(MainActivity.this);
+        progressDialog = new ProgressDialog(MainActivity.this);
     }
 
     @Override
@@ -138,15 +191,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.txt_button_logout_header : logoutUserAccount();
-                break;
-            default: break;
-        }
-    }
-
     private void logoutUserAccount() {
         session.logoutUser();
     }
@@ -156,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.setTitle("Pengecekkan Data Tanaman Kamu");
         progressDialog.setMessage("Loading..");
         progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(true);
+        progressDialog.setCancelable(false);
         progressDialog.show();
         statusProgressDialog = true;
         Runnable progressRunnable = new Runnable() {
@@ -169,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         };
         Handler pdCanceller = new Handler();
-        pdCanceller.postDelayed(progressRunnable, 25000);
+        pdCanceller.postDelayed(progressRunnable, 26000);
 
         requestBody = new FormBody.Builder()
                 .add("id_user", idUser)
@@ -180,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e("Error : ", e.getMessage());
+                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -234,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
         final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) findViewById(R.id.layout_dialog_coba_lagi));
-        popDialog.setIcon(android.R.drawable.stat_notify_error);
+        popDialog.setIcon(R.mipmap.ic_alert);
         popDialog.setTitle("Pengecekkan Data Tanaman Gagal");
         popDialog.setView(Viewlayout);
         popDialog.setCancelable(false);

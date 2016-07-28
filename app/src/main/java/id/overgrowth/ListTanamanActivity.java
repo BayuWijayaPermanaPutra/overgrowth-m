@@ -196,7 +196,7 @@ public class ListTanamanActivity extends AppCompatActivity {
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
         final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) findViewById(R.id.layout_dialog_coba_lagi));
-        popDialog.setIcon(android.R.drawable.stat_notify_error);
+        popDialog.setIcon(R.mipmap.ic_alert);
         popDialog.setTitle("Gagal mendapatkan data tanaman");
         popDialog.setView(Viewlayout);
         popDialog.setCancelable(false);

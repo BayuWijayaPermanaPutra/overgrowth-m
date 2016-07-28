@@ -176,7 +176,7 @@ public class DetailTanamanUserBelumTanamActivity extends AppCompatActivity {
     }
 
     private void prosesTanamTanaman(){
-        Toast.makeText(DetailTanamanUserBelumTanamActivity.this, "Button Tanam di klik", Toast.LENGTH_SHORT).show();
+
         formBody = new FormBody.Builder()
                 .add("id_user", idUser)
                 .add("id_tanaman_user", String.valueOf(id_tanaman_user))
