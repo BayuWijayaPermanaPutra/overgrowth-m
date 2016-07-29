@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="10dp"
-            android:src="@mipmap/ic_plant"
+            android:src="@mipmap/ic_plantroot_white"
             android:visibility="invisible"
             app:backgroundTint="@color/colorPrimaryDark"
             app:fabSize="mini" />
@@ -19,7 +19,7 @@
             android:layout_gravity="bottom|end"
             android:visibility="invisible"
             android:layout_margin="10dp"
-            android:text="@string/text_data_tanaman"
+            android:text="@string/text_pilih_langsung"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <android.support.design.widget.FloatingActionButton
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="10dp"
-            android:src="@mipmap/ic_toolsiram"
+            android:src="@mipmap/ic_summer_white"
             android:visibility="invisible"
             app:backgroundTint="@color/colorPrimaryDark"
             app:fabSize="mini"

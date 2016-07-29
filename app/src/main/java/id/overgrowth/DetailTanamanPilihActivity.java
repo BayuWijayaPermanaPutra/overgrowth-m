@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +57,8 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
     private static final String TAG_DESKRIPSI = "deskripsi";
     private static final String TAG_CARA_MENANAM = "cara_menanam";
     private AlertDialogManager alert;
-    private TextView titleToolbar;
+    private TextView titleToolbar, txtVtitikTitik;
+    private LinearLayout linearLayoutInfoCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,8 +129,13 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
                                 Picasso.with(getBaseContext()).load(urlGambar).into(imageVGambar);
                                 txtVLamaPanen.setText(String.valueOf(lamaPanen)+" hari");
                                 txtVCocokDiMusim.setText(cocokDiMusim);
-                                String desShow = deskripsi + ".<br> Cara Menanam : " + caraMenanam;
-                                txtVDeskripsi.setText(Html.fromHtml(desShow.replaceAll("\n","<br>")));
+                                String desShow = deskripsi+".\n Cara Menanam : \n" + caraMenanam;
+                                txtVDeskripsi.setText(desShow);
+                                linearLayoutInfoCard.setVisibility(View.VISIBLE);
+                                txtVtitikTitik.setVisibility(View.VISIBLE);
+                                txtVBacaSelengkapnya.setVisibility(View.VISIBLE);
+                                buttonPilih.setVisibility(View.VISIBLE);
+
                                 buttonPilih.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -169,7 +176,9 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
         txtVCocokDiMusim = (TextView) findViewById(R.id.textv_tanamancocokdimusim_pilih);
         txtVDeskripsi = (TextView) findViewById(R.id.textv_deskripsi_tanaman_pilih);
         txtVBacaSelengkapnya = (TextView) findViewById(R.id.textv_baca_selengkapnya_pilih);
+        txtVtitikTitik = (TextView) findViewById(R.id.text_titiktitik_detaiktanaman_pilih);
         buttonPilih = (Button) findViewById(R.id.button_pilih_tanaman_detail_pilih);
+        linearLayoutInfoCard = (LinearLayout) findViewById(R.id.linearlayout_info_detailtanaman_pilih);
     }
 
     private void setToolbar(){

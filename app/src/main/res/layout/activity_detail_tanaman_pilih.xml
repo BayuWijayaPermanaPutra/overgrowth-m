@@ -16,18 +16,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         >
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:scaleType="centerCrop"
             android:id="@+id/image_foto_detailtanaman_pilih"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:src="@drawable/logo"
             android:layout_marginRight="10dp"
             />
             <TextView
                 android:id="@+id/textv_namadetail_pilih"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nama Tanaman"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:layout_gravity="center_vertical"
@@ -35,12 +34,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearlayout_info_detailtanaman_pilih"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="7dp"
         android:layout_marginLeft="7dp"
         android:gravity="center_horizontal"
+        android:visibility="invisible"
         >
         <android.support.v7.widget.CardView
             android:layout_marginLeft="8dp"
@@ -62,7 +63,7 @@
                     android:id="@+id/icon_siram"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/logo"
+                    android:src="@mipmap/ic_siram"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     />
@@ -95,16 +96,16 @@
                     android:id="@+id/icon_tumbuhtanaman"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/logo"
-                    android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
+                    android:src="@mipmap/ic_tanamantumbuh"
+                    android:layout_gravity="center_horizontal"
                     />
                 <TextView
                     android:id="@+id/textv_lama_panen_tanaman_hari_pilih"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="12 Hari"/>
+                    />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -128,7 +129,7 @@
                     android:id="@+id/icon_cocokdimusim"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/logo"
+                    android:src="@mipmap/ic_summer"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     />
@@ -137,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Kemarau"/>
+                    />
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
@@ -154,14 +155,16 @@
         android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/textv_deskripsi_tanaman_pilih"
-                android:text="Deskripsi Tanaman"
                 android:layout_width="match_parent"
+                android:textAlignment="center"
                 android:layout_height="52dp"
                 android:layout_gravity="center_vertical"
                 />
             <TextView
+                android:id="@+id/text_titiktitik_detaiktanaman_pilih"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="invisible"
                 android:text="..."
                 android:layout_gravity="center_horizontal"
                 />
@@ -172,6 +175,7 @@
                 android:text="@string/text_bacaselengkapnya"
                 android:textColor="@color/colorPrimary"
                 android:layout_gravity="center_horizontal"
+                android:visibility="invisible"
                 />
     </LinearLayout>
     <Button
@@ -186,5 +190,6 @@
         android:text="@string/text_pilih_tanaman"
         android:textAllCaps="true"
         android:textColor="@color/white"
+        android:visibility="invisible"
         />
 </LinearLayout>

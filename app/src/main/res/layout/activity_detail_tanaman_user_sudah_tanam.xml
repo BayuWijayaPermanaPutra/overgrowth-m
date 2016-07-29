@@ -8,6 +8,15 @@
     android:background="@color/white"
     tools:context="id.overgrowth.DetailTanamanUserSudahTanamActivity">
     <include layout="@layout/toolbar" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <LinearLayout
         android:layout_margin="25dp"
         android:padding="10dp"
@@ -20,18 +29,17 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:scaleType="centerCrop"
                 android:id="@+id/image_foto_detail_tanamanuser_sudahtanam"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:src="@drawable/logo"
                 android:layout_marginRight="10dp"
                 />
             <TextView
                 android:id="@+id/textv_namadetail_tanamanuser_sudahtanam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nama Tanaman"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:layout_gravity="center_vertical"
@@ -43,21 +51,21 @@
            android:layout_height="wrap_content">
            <TextView
                android:id="@+id/textv_lama_menuju_panen_detailtanamanuser"
-               android:text="Lama hari menuju panen"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_centerHorizontal="true"
                />
        </RelativeLayout>
     </LinearLayout>
-
     <LinearLayout
+        android:id="@+id/linearlayout_info_detailtanaman_sudahtanam"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="7dp"
         android:layout_marginLeft="7dp"
         android:gravity="center_horizontal"
+        android:visibility="invisible"
         >
         <android.support.v7.widget.CardView
             android:layout_marginLeft="8dp"
@@ -79,7 +87,7 @@
                     android:id="@+id/icon_siram"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/logo"
+                    android:src="@mipmap/ic_siram"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     />
@@ -112,7 +120,7 @@
                     android:id="@+id/icon_tumbuhtanaman"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/logo"
+                    android:src="@mipmap/ic_tanamantumbuh"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     />
@@ -145,7 +153,7 @@
                     android:id="@+id/icon_cocokdimusim"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/logo"
+                    android:src="@mipmap/ic_summer"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     />
@@ -158,19 +166,44 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
-    <Button
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/text_hapus_tanaman"
-            android:background="@drawable/button_shape_red"
-            android:id="@+id/button_hapus_tanamanuser_detailtanaman"
-            android:layout_width="200dp"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
-        android:textAllCaps="false"
-            android:layout_height="40dp" />
+    <TextView
+        android:id="@+id/text_deskripsititle_tanaman_detailsudahtanam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:visibility="invisible"
+        android:textAlignment="center"
+        android:text="Deskripsi Tanaman"
+        android:textSize="17dp"
+        android:textColor="@color/colorPrimary"
+        />
+            <TextView
+                android:id="@+id/textv_deskripsi_tanaman_sudahtanam"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:textAlignment="center"
+                />
+            <TextView
+                android:id="@+id/text_titiktitik_detail_sudahtanam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:text="..."
+                android:layout_gravity="center_horizontal"
+                />
+            <TextView
+                android:id="@+id/textv_baca_selengkapnya_sudahtanam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_bacaselengkapnya"
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible"
+                />
     <Button
         android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"
@@ -182,4 +215,6 @@
         android:id="@+id/button_panen_tanamanuser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

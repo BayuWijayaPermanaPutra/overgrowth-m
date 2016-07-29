@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import id.overgrowth.utility.AlarmReceiver;
 import id.overgrowth.utility.SessionManager;
 
 public class PengaturanActivity extends AppCompatActivity {

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/grp1">
+    <item
+        android:id="@+id/menu_rating_overflow"
+        android:orderInCategory="1"
+        android:showAsAction="never"
+        android:title="@string/text_rating"/>
+    </group>
+
+    <group android:id="@+id/grp2">
+    <item
+        android:id="@+id/menu_logout_overflow"
+        android:orderInCategory="2"
+        android:showAsAction="never"
+        android:title="@string/text_logout"/>
+    </group>
+</menu>

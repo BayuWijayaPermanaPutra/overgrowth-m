@@ -2,43 +2,58 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    tools:context=".DetailTanamanPilihActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.overgrowth.DetailDeskripsiTanamanActivity">
+    android:scrollbars="vertical"
+    android:orientation="vertical">
     <include layout="@layout/toolbar"/>
 
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/text_deskripsi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_deskripsitanaman"
-            android:textColor="@android:color/holo_green_light"
-            android:textSize="16dp"
-            />
-        <TextView
-            android:id="@+id/textv_deskripsi_tanaman_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            />
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/text_cara_menanam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_caramenanam"
-            android:textColor="@android:color/holo_green_light"
-            android:textSize="16dp"
-            />
-        <TextView
-            android:id="@+id/textv_cara_menanam_detail"
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/text_deskripsi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_deskripsitanaman"
+        android:textColor="@android:color/holo_green_light"
+        android:textSize="16dp"
+        />
+    <TextView
+        android:id="@+id/textv_deskripsi_tanaman_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        />
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/text_cara_menanam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_caramenanam"
+        android:textColor="@android:color/holo_green_light"
+        android:textSize="16dp"
+        />
+    <TextView
+        android:id="@+id/textv_cara_menanam_detail"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+</LinearLayout>
+    <!-- content -->
+</ScrollView>
 </LinearLayout>

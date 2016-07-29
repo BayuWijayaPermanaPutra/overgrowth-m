@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:background="@color/colorAccent"
-            android:src="@mipmap/ic_plant"
+            android:src="@mipmap/ic_tanamantumbuh"
             android:clickable="true"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"

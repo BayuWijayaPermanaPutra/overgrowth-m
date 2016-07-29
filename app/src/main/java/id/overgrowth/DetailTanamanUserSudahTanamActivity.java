@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,13 +50,14 @@ public class DetailTanamanUserSudahTanamActivity extends AppCompatActivity {
     private static final String TAG_COCOK_DI_MUSIM = "cocokdimusim";
     private static final String TAG_LAMA_PANEN = "lama_panen";
     private static final String TAG_TANGGAL_TANAM = "waktu_menanam";
+    private static final String TAG_DESKRIPSI = "deskripsi";
 
-    private String namaTanaman, urlGambar, tanggalDitanam, lamaMenujuPanen, lamaPanen, cocokDiMusim;
+    private String namaTanaman, urlGambar, tanggalDitanam, lamaMenujuPanen, lamaPanen, cocokDiMusim, deskripsi;
     private int lama_panenInt;
     private long hitungLamaPanen;
     private long hitungSelisihHari;
     public static int id_tanaman_user;
-    private TextView textVnamaTanaman, textVlamaMenujuPanen, textVlamaPanen, textVcocokDiMusim;
+    private TextView textVnamaTanaman, textVlamaMenujuPanen, textVlamaPanen, textVcocokDiMusim, textVtitleDeskripsi, textVDeskripsiSingkat, textVTitiktitik, textVBacaSelengkapnya;
     private ImageView imageTanaman;
     private Toolbar toolbar;
     private HashMap<String, String> user;
@@ -63,7 +66,8 @@ public class DetailTanamanUserSudahTanamActivity extends AppCompatActivity {
     FormBody formBody;
     private AlertDialogManager alert;
     private SessionManager session;
-    private Button buttonHapusTanaman, buttonPanenTanaman;
+    private Button buttonPanenTanaman;
+    private LinearLayout linearLayoutInfoCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +149,7 @@ public class DetailTanamanUserSudahTanamActivity extends AppCompatActivity {
                                                 else {
                                                     lamaMenujuPanen = String.valueOf(hitungLamaPanen) +" hari menuju panen";
                                                 }
-
+                                                deskripsi = jObject.getString(TAG_DESKRIPSI);
                                                 lamaPanen= jObject.getString(TAG_LAMA_PANEN)+" hari";
                                                 cocokDiMusim = jObject.getString(TAG_COCOK_DI_MUSIM);
                                                 if(cocokDiMusim.equals("Hujan & Kemarau")){
@@ -170,10 +174,20 @@ public class DetailTanamanUserSudahTanamActivity extends AppCompatActivity {
                                             textVlamaMenujuPanen.setText(lamaMenujuPanen);
                                             textVlamaPanen.setText(lamaPanen);
                                             textVcocokDiMusim.setText(cocokDiMusim);
-                                            buttonHapusTanaman.setOnClickListener(new View.OnClickListener() {
+                                            linearLayoutInfoCard.setVisibility(View.VISIBLE);
+                                            textVDeskripsiSingkat.setText(deskripsi);
+                                            textVtitleDeskripsi.setVisibility(View.VISIBLE);
+                                            textVDeskripsiSingkat.setVisibility(View.VISIBLE);
+                                            textVTitiktitik.setVisibility(View.VISIBLE);
+                                            textVBacaSelengkapnya.setVisibility(View.VISIBLE);
+                                            textVBacaSelengkapnya.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    prosesHapusTanaman();
+                                                    Bundle b = new Bundle();
+                                                    Intent intent = new Intent(DetailTanamanUserSudahTanamActivity.this, DetailDeskripsiTanamanUserActivity.class);
+                                                    b.putString("deskripsiTanaman",deskripsi);
+                                                    intent.putExtras(b);
+                                                    startActivity(intent);
                                                 }
                                             });
                                             if (hitungLamaPanen < 1) {
@@ -203,6 +217,12 @@ public class DetailTanamanUserSudahTanamActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_overflow_detailtanaman_user, menu);
+        return true;
+    }
+
 
     private void initView(){
         textVnamaTanaman = (TextView) findViewById(R.id.textv_namadetail_tanamanuser_sudahtanam);
@@ -212,8 +232,13 @@ public class DetailTanamanUserSudahTanamActivity extends AppCompatActivity {
         textVcocokDiMusim = (TextView) findViewById(R.id.textv_tanamancocokdimusim_tanamanuser);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         titleToolbar = (TextView) findViewById(R.id.title_toolbar);
-        buttonHapusTanaman = (Button) findViewById(R.id.button_hapus_tanamanuser_detailtanaman);
         buttonPanenTanaman = (Button) findViewById(R.id.button_panen_tanamanuser);
+        linearLayoutInfoCard = (LinearLayout) findViewById(R.id.linearlayout_info_detailtanaman_sudahtanam);
+
+        textVtitleDeskripsi = (TextView) findViewById(R.id.text_deskripsititle_tanaman_detailsudahtanam);
+        textVDeskripsiSingkat = (TextView) findViewById(R.id.textv_deskripsi_tanaman_sudahtanam);
+        textVTitiktitik = (TextView) findViewById(R.id.text_titiktitik_detail_sudahtanam);
+        textVBacaSelengkapnya = (TextView) findViewById(R.id.textv_baca_selengkapnya_sudahtanam);
     }
 
     private void createObjects(){
@@ -231,10 +256,13 @@ public class DetailTanamanUserSudahTanamActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.menu_hapustanaman_overflow:
+                prosesHapusTanaman();
+                return true;
             default:
-                break;
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void prosesHapusTanaman() {

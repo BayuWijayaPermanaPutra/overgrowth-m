@@ -89,10 +89,25 @@ public class ListTanamanUserFragment extends Fragment {
         if (session.isLoggedIn()){
             user = session.getUserDetails();
             idUser = user.get(SessionManager.KEY_IDUSER);
+            progressDialog.setTitle("Load Data Tanaman Kamu");
+            progressDialog.setMessage("Loading..");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            statusProgressDialog = true;
+            Runnable progressRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    progressDialog.cancel();
+                    if(statusProgressDialog){
+                        showDialog();
+                    }
+                }
+            };
+            Handler pdCanceller = new Handler();
+            pdCanceller.postDelayed(progressRunnable, 22000);
             getTanamanUser();
         }
-
-
 
         fabMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,23 +300,7 @@ public class ListTanamanUserFragment extends Fragment {
     private void getTanamanUser(){
         Log.i("iduser:",idUser);
 
-        progressDialog.setTitle("Load Data Tanaman Kamu");
-        progressDialog.setMessage("Loading..");
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        statusProgressDialog = true;
-        Runnable progressRunnable = new Runnable() {
-            @Override
-            public void run() {
-                progressDialog.cancel();
-                if(statusProgressDialog){
-                    showDialog();
-                }
-            }
-        };
-        Handler pdCanceller = new Handler();
-        pdCanceller.postDelayed(progressRunnable, 22000);
+
 
         requestBody = new FormBody.Builder()
                 .add("id_user", idUser)
@@ -335,7 +334,6 @@ public class ListTanamanUserFragment extends Fragment {
                                 mTanamanUser.setWaktuMenanam(jObject.getString("waktu_menanam"));
                                 tanamanUserArrayList.add(mTanamanUser);
                             }
-
                         }
                         Log.i("getdatanews", String.valueOf(statusCode));
 

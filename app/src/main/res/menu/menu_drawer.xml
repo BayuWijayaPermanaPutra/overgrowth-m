@@ -4,20 +4,19 @@
         android:id="@+id/grup1">
         <item
             android:id="@+id/nav_info_tanaman"
-            android:icon="@mipmap/ic_info_outline"
-            android:title="@string/nav_item_lihat_infotanaman" />
+            android:icon="@mipmap/ic_plant_root"
+            android:title="@string/text_lihat_infotanaman" />
         <item
             android:id="@+id/nav_pengaturan"
-            android:icon="@mipmap/ic_info_outline"
-            android:title="@string/nav_item_pengaturan" />
+            android:icon="@mipmap/ic_setting"
+            android:title="@string/text_pengaturan" />
     </group>
     <group android:checkableBehavior="single"
         android:id="@+id/grup2"
         >
         <item
             android:id="@+id/nav_logout"
-            android:icon="@mipmap/ic_info_outline"
-            android:title="@string/nav_item_logout"
+            android:title="@string/text_logout"
             />
     </group>
 </menu>

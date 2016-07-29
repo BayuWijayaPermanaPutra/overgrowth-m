@@ -61,6 +61,7 @@ public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder
 
             final Intent[] intent = new Intent[1];
             final Bundle b = new Bundle();
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

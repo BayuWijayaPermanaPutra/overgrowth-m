@@ -1,6 +1,8 @@
 package id.overgrowth.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.opengl.Visibility;
 import android.os.Bundle;
@@ -62,7 +64,7 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
 
     @Override
     public void onBindViewHolder(AdListTanamanUser.ViewHolder holder, int position) {
-        MTanamanUser tanaman = arrayTanamanUser.get(position);
+        final MTanamanUser tanaman = arrayTanamanUser.get(position);
         Context context = ((ViewHolder) holder).imageTanaman.getContext();
         Picasso.with(context).load(UrlApi.urlGambarTanaman+tanaman.getFotoTanaman()).into(((ViewHolder)holder).imageTanaman);
         holder.namaTanaman.setText(tanaman.getNamaTanaman());
@@ -71,7 +73,11 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
         } else {
             holder.buttonHapus.setVisibility(View.VISIBLE);
         }
+
+
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -103,7 +109,6 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
             final Intent[] intent = new Intent[1];
             final Bundle b = new Bundle();
 
-
             buttonTanam.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -111,6 +116,12 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
                 }
             });
 
+            buttonHapus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    prosesHapusTanaman();
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -142,6 +153,79 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
                     return true;
                 }
             });
+
+        }
+
+        private void prosesHapusTanaman() {
+            /*final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
+            final LayoutInflater inflater = (LayoutInflater) getAdapterPosition().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View Viewlayout = inflater.inflate(R.layout.dialog_hapus_tanaman,(ViewGroup) holder.findViewById(R.id.layout_dialog_hapus_tanaman));
+            popDialog.setIcon(R.mipmap.ic_alert);
+            popDialog.setTitle("Hapus Tanaman");
+            popDialog.setView(Viewlayout);
+            popDialog.setCancelable(false);
+            // Button OK
+            popDialog.setPositiveButton(android.R.string.ok,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            formBody = new FormBody.Builder()
+                                    .add("id_user", idUser)
+                                    .add("id_tanaman_user", String.valueOf(tanaman.getIdTanamanUser()))
+                                    .build();
+                            try {
+                                OkHttpRequest.postDataToServer(UrlApi.urlHapusTanaman,formBody).enqueue(new Callback() {
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+                                        e.printStackTrace();
+                                        Log.e("errorhapustanaman", e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, Response response) throws IOException {
+                                        int statusCode;
+                                        String message = null;
+                                        try {
+                                            Log.i("getresponsehapustanaman", "response detail news success");
+
+                                            JSONObject jsonObject = new JSONObject(response.body().string());
+                                            statusCode = jsonObject.getInt("statusCode");
+                                            message = jsonObject.getString("message");
+                                            Log.i("gethapustanamanstatus", String.valueOf(statusCode));
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        final String finalMessage = message;
+                                        final Intent[] intent = new Intent[1];
+                                        DetailTanamanUserSudahTanamActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(DetailTanamanUserSudahTanamActivity.this, finalMessage, Toast.LENGTH_LONG).show();
+                                                intent[0] = new Intent(DetailTanamanUserSudahTanamActivity.this, MainActivity.class);
+                                                startActivity(intent[0]);
+                                                finish();
+                                            }
+                                        });
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    })
+                    // Button Cancel
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+            popDialog.create();
+            popDialog.show();
+            */
         }
     }
 
