@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import id.overgrowth.DetailTanamanPilihActivity;
 import id.overgrowth.R;
-import id.overgrowth.model.MTanaman;
+import id.overgrowth.model.Tanaman;
 import id.overgrowth.utility.UrlApi;
 
 /**
@@ -24,9 +24,10 @@ import id.overgrowth.utility.UrlApi;
  */
 public class AdTanamanRekomendasi extends RecyclerView.Adapter<AdTanamanRekomendasi.ViewHolder> {
 
-    private ArrayList<MTanaman> tanaman;
+    private ArrayList<Tanaman> tanaman;
     private Context context;
-    public AdTanamanRekomendasi(ArrayList<MTanaman> tanaman, Context context) {
+
+    public AdTanamanRekomendasi(ArrayList<Tanaman> tanaman, Context context) {
         this.tanaman = tanaman;
         this.context = context;
     }
@@ -40,10 +41,10 @@ public class AdTanamanRekomendasi extends RecyclerView.Adapter<AdTanamanRekomend
 
     @Override
     public void onBindViewHolder(AdTanamanRekomendasi.ViewHolder holder, int position) {
-        MTanaman mTanaman = tanaman.get(position);
-        holder.namatanaman.setText(mTanaman.getNamatanaman());
+        Tanaman tanaman = this.tanaman.get(position);
+        holder.namatanaman.setText(tanaman.getNamatanaman());
         Context context = ((ViewHolder) holder).imagetanaman.getContext();
-        Picasso.with(context).load(UrlApi.urlGambarTanaman+ mTanaman.getFototanaman()).into(((ViewHolder) holder).imagetanaman);
+        Picasso.with(context).load(UrlApi.urlGambarTanaman+ tanaman.getFototanaman()).into(((ViewHolder) holder).imagetanaman);
 
     }
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#99ca3c"
+    android:background="@color/colorPrimary"
     tools:context="id.overgrowth.SplashActivity">
     <ImageView
         android:id="@+id/logo_lorax"

@@ -41,11 +41,10 @@ public class DetailTanamanPilihActivity extends AppCompatActivity {
     private int lamaPanen;
     private String urlGambar;
     private String deskripsi, caraMenanam;
-
     private TextView txtVNama, txtVCocokDiMusim, txtVLamaPanen, txtVDeskripsi, txtVBacaSelengkapnya;
     private ImageView imageVGambar;
     private Button buttonPilih;
-    FormBody formBody;
+    private FormBody formBody;
     private SessionManager session;
     private HashMap<String, String> user;
     private String idUser;

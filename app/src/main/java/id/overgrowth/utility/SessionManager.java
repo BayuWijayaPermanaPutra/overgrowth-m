@@ -50,10 +50,6 @@ public class SessionManager {
         editor.commit();
     }
 
-    public void createHavePlantsSession(){
-        editor.putBoolean(IS_HAVE_PLANTS, true);
-        editor.commit();
-    }
 
     public void addProfile(String idUser, String nama, String email, String urlUser) {
         editor.putString(KEY_IDUSER,idUser);
@@ -101,7 +97,4 @@ public class SessionManager {
         editor.commit();
     }
 
-    public boolean isHavePlants() {
-        return pref.getBoolean(IS_HAVE_PLANTS, false);
-    }
 }

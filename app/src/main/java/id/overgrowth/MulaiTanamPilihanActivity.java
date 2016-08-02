@@ -29,7 +29,7 @@ public class MulaiTanamPilihanActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(InternetCheck.isNetworkConnected(MulaiTanamPilihanActivity.this)){
                     if (InternetCheck.isNetworkAvailable(MulaiTanamPilihanActivity.this)){
-                        Intent intent = new Intent(MulaiTanamPilihanActivity.this,MulaiTanamRekomendasiActivity.class);
+                        Intent intent = new Intent(MulaiTanamPilihanActivity.this,ListRekomendasiActivity.class);
                         startActivity(intent);
                     } else {
                         alert.showAlertDialog(MulaiTanamPilihanActivity.this,"Error","Internet tidak bisa diakses!");

@@ -4,12 +4,10 @@
     <string name="text_mulai">Mulai</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="dialog_action_tambah_tanaman_lama">Unggah Foto Tanaman</string>
-    <string name="dialog_action_tambah_tanaman_baru">Mulai Menanam</string>
     <string name="text_atau">Atau</string>
     <string name="text_pilih_tanaman">Pilih Tanaman</string>
     <string name="text_pindai_tanaman">- Pindai tanah yang akan ditanami -</string>
-    <string name="text_rekomendasi">Rekomendasi</string>
+    <string name="text_rekomendasi">Lihat Rekomendasi</string>
     <string name="text_sayuran_capital">SAYURAN</string>
     <string name="text_buah_capital">BUAH</string>
     <string name="text_hias_capital">HIAS</string>
@@ -42,4 +40,5 @@
     <string name="text_rating">Berikan Rating</string>
     <string name="text_slogan">Plant, Grow, Crops</string>
     <string name="text_pilih_langsung">Pilih Langsung</string>
+    <string name="text_pilih_tanaman_langsung">Pilih Tanaman Langsung</string>
 </resources>

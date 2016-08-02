@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MulaiTanamPilihanActivity" />
-        <activity android:name=".MulaiTanamRekomendasiActivity" />
+        <activity android:name=".ListRekomendasiActivity" />
         <activity android:name=".PilihKategoriActivity" />
         <activity android:name=".ListTanamanActivity" />
         <activity android:name=".LoginActivity" />

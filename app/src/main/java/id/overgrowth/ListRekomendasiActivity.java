@@ -32,7 +32,7 @@ import java.util.HashMap;
 
 import id.overgrowth.adapter.AdTanamanRekomendasi;
 import id.overgrowth.model.MTanah;
-import id.overgrowth.model.MTanaman;
+import id.overgrowth.model.Tanaman;
 import id.overgrowth.utility.AlertDialogManager;
 import id.overgrowth.utility.DividerItem;
 import id.overgrowth.utility.OkHttpRequest;
@@ -45,8 +45,8 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
-    private ArrayList<MTanaman> tanamanList = new ArrayList<>();
+public class ListRekomendasiActivity extends AppCompatActivity {
+    private ArrayList<Tanaman> tanamanList = new ArrayList<>();
     AlertDialogManager adm = new AlertDialogManager();
     private RecyclerView rvTanaman;
     private AdTanamanRekomendasi adapter;
@@ -81,7 +81,7 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 MTanah mTanah = new MTanah(1,"Info Tanah","Coming Soon on the Next Updates");
-                adm.showAlertDialog(MulaiTanamRekomendasiActivity.this,mTanah.getNama_tanah(),mTanah.getDeskripsi_tanah());
+                adm.showAlertDialog(ListRekomendasiActivity.this,mTanah.getNama_tanah(),mTanah.getDeskripsi_tanah());
             }
         });
 
@@ -137,12 +137,6 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void dataDummy() {
-        tanamanList.add(new MTanaman(1,"Chinese Evergreen","Sayuran",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
-        tanamanList.add(new MTanaman(2,"Aloevera","Hias",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
-        tanamanList.add(new MTanaman(3,"Aloevera","Hias",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
-    }
-
     private void getTanamanRekomendasi() {
         Log.i("iduser:",idUser);
         Log.i("cuaca:",cuaca);
@@ -173,17 +167,17 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jObject = jsonArray.getJSONObject(i);
-                                MTanaman mTanaman = new MTanaman();
+                                Tanaman tanaman = new Tanaman();
                                 Log.i("getdatanews", jObject.getString("nama_tanaman"));
-                                mTanaman.setIdtanaman(jObject.getInt("id_tanaman"));
-                                mTanaman.setNamatanaman(jObject.getString("nama_tanaman"));
-                                mTanaman.setJenistanaman(jObject.getString("jenis_tanaman"));
-                                mTanaman.setLamapanen(jObject.getInt("lama_panen"));
-                                mTanaman.setDeskripsi(jObject.getString("deskripsi"));
-                                mTanaman.setFototanaman(jObject.getString("foto_tanaman"));
-                                mTanaman.setCaramenanam(jObject.getString("cara_menanam"));
-                                mTanaman.setCocokdimusim(jObject.getString("cocokdimusim"));
-                                tanamanList.add(mTanaman);
+                                tanaman.setIdtanaman(jObject.getInt("id_tanaman"));
+                                tanaman.setNamatanaman(jObject.getString("nama_tanaman"));
+                                tanaman.setJenistanaman(jObject.getString("jenis_tanaman"));
+                                tanaman.setLamapanen(jObject.getInt("lama_panen"));
+                                tanaman.setDeskripsi(jObject.getString("deskripsi"));
+                                tanaman.setFototanaman(jObject.getString("foto_tanaman"));
+                                tanaman.setCaramenanam(jObject.getString("cara_menanam"));
+                                tanaman.setCocokdimusim(jObject.getString("cocokdimusim"));
+                                tanamanList.add(tanaman);
                             }
                         }
                     } catch (JSONException e) {
@@ -191,19 +185,19 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    MulaiTanamRekomendasiActivity.this.runOnUiThread(new Runnable() {
+                    ListRekomendasiActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             if (statusProgressDialog == true){
                                 progressDialog.dismiss();
                                 statusProgressDialog = false;
                             }
-                            rvTanaman.setLayoutManager(new LinearLayoutManager(MulaiTanamRekomendasiActivity.this));
-                            adapter = new AdTanamanRekomendasi(tanamanList,MulaiTanamRekomendasiActivity.this);
+                            rvTanaman.setLayoutManager(new LinearLayoutManager(ListRekomendasiActivity.this));
+                            adapter = new AdTanamanRekomendasi(tanamanList,ListRekomendasiActivity.this);
                             rvTanaman.setAdapter(adapter);
                             rvTanaman.setHasFixedSize(true);
                             rvTanaman.setItemAnimator(new DefaultItemAnimator());
-                            rvTanaman.addItemDecoration(new DividerItem(MulaiTanamRekomendasiActivity.this));
+                            rvTanaman.addItemDecoration(new DividerItem(ListRekomendasiActivity.this));
                         }
                     });
                 }
@@ -216,11 +210,11 @@ public class MulaiTanamRekomendasiActivity extends AppCompatActivity {
     private void updateWeatherData(){
         new Thread(){
             public void run(){
-                final JSONObject json = RemoteWeatherFetch.getJSON(MulaiTanamRekomendasiActivity.this);
+                final JSONObject json = RemoteWeatherFetch.getJSON(ListRekomendasiActivity.this);
                 if(json == null){
                     handler.post(new Runnable(){
                         public void run(){
-                            Toast.makeText(MulaiTanamRekomendasiActivity.this, MulaiTanamRekomendasiActivity.this.getString(R.string.place_not_found), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ListRekomendasiActivity.this, ListRekomendasiActivity.this.getString(R.string.place_not_found), Toast.LENGTH_LONG).show();
                         }
                     });
                 } else {

@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import id.overgrowth.adapter.AdListTanaman;
-import id.overgrowth.model.MTanaman;
+import id.overgrowth.model.Tanaman;
 import id.overgrowth.utility.AlertDialogManager;
 import id.overgrowth.utility.DividerItem;
 import id.overgrowth.utility.OkHttpRequest;
@@ -44,7 +43,7 @@ import okhttp3.Response;
 public class ListTanamanActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView rvListTanaman;
-    private ArrayList<MTanaman> arrayTanaman = new ArrayList<>();
+    private ArrayList<Tanaman> arrayTanaman = new ArrayList<>();
     private AdListTanaman adapterTanaman;
     public static String jenis_tanaman = null;
     private SessionManager session;
@@ -105,12 +104,6 @@ public class ListTanamanActivity extends AppCompatActivity {
         titleToolbar.setText(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    private void dataDummy(){
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
-        arrayTanaman.add(new MTanaman(1,"Mangga","Buah",2,"Tanaman Langka","chinese-evergreen.png","Cara menanamnya disini","Kemarau"));
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -153,17 +146,17 @@ public class ListTanamanActivity extends AppCompatActivity {
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jObject = jsonArray.getJSONObject(i);
-                                MTanaman mTanaman = new MTanaman();
+                                Tanaman tanaman = new Tanaman();
                                 Log.i("getdatalistkategori", jObject.getString("nama_tanaman"));
-                                mTanaman.setIdtanaman(jObject.getInt("id_tanaman"));
-                                mTanaman.setNamatanaman(jObject.getString("nama_tanaman"));
-                                mTanaman.setJenistanaman(jObject.getString("jenis_tanaman"));
-                                mTanaman.setLamapanen(jObject.getInt("lama_panen"));
-                                mTanaman.setDeskripsi(jObject.getString("deskripsi"));
-                                mTanaman.setFototanaman(jObject.getString("foto_tanaman"));
-                                mTanaman.setCaramenanam(jObject.getString("cara_menanam"));
-                                mTanaman.setCocokdimusim(jObject.getString("cocokdimusim"));
-                                arrayTanaman.add(mTanaman);
+                                tanaman.setIdtanaman(jObject.getInt("id_tanaman"));
+                                tanaman.setNamatanaman(jObject.getString("nama_tanaman"));
+                                tanaman.setJenistanaman(jObject.getString("jenis_tanaman"));
+                                tanaman.setLamapanen(jObject.getInt("lama_panen"));
+                                tanaman.setDeskripsi(jObject.getString("deskripsi"));
+                                tanaman.setFototanaman(jObject.getString("foto_tanaman"));
+                                tanaman.setCaramenanam(jObject.getString("cara_menanam"));
+                                tanaman.setCocokdimusim(jObject.getString("cocokdimusim"));
+                                arrayTanaman.add(tanaman);
                             }
                         }
                     } catch (JSONException e) {

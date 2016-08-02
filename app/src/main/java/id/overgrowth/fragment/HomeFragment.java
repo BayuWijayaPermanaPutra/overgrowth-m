@@ -1,4 +1,4 @@
-package id.overgrowth;
+package id.overgrowth.fragment;
 
 
 import android.content.DialogInterface;
@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListAdapter;
 
+import id.overgrowth.MulaiTanamPilihanActivity;
+import id.overgrowth.PilihKategoriActivity;
+import id.overgrowth.R;
 import id.overgrowth.adapter.AdArrayWithIcon;
 
 
@@ -19,7 +22,7 @@ import id.overgrowth.adapter.AdArrayWithIcon;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
-    Button buttonMulai;
+    private Button buttonMulai;
 
     public HomeFragment() {
         // Required empty public constructor

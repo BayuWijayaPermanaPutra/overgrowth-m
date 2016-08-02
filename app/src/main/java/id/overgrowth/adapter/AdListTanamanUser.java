@@ -1,49 +1,34 @@
 package id.overgrowth.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import id.overgrowth.DetailTanamanPilihActivity;
 import id.overgrowth.DetailTanamanUserBelumTanamActivity;
 import id.overgrowth.DetailTanamanUserSudahTanamActivity;
-import id.overgrowth.MainActivity;
 import id.overgrowth.R;
-import id.overgrowth.model.MTanamanUser;
-import id.overgrowth.utility.OkHttpRequest;
+import id.overgrowth.model.TanamanUser;
 import id.overgrowth.utility.SessionManager;
 import id.overgrowth.utility.UrlApi;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.Response;
 
 /**
  * Created by bayu_ on 7/20/2016.
  */
 public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.ViewHolder> {
-    private ArrayList<MTanamanUser> arrayTanamanUser;
+    private ArrayList<TanamanUser> arrayTanamanUser;
     private Context context;
     FormBody formBody;
     private SessionManager session;
@@ -51,7 +36,7 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
 
     private String idUser;
 
-    public AdListTanamanUser(ArrayList<MTanamanUser> arrayBuah, Context context) {
+    public AdListTanamanUser(ArrayList<TanamanUser> arrayBuah, Context context) {
         this.arrayTanamanUser = arrayBuah;
         this.context = context;
     }
@@ -64,7 +49,7 @@ public class AdListTanamanUser extends RecyclerView.Adapter<AdListTanamanUser.Vi
 
     @Override
     public void onBindViewHolder(AdListTanamanUser.ViewHolder holder, int position) {
-        final MTanamanUser tanaman = arrayTanamanUser.get(position);
+        final TanamanUser tanaman = arrayTanamanUser.get(position);
         Context context = ((ViewHolder) holder).imageTanaman.getContext();
         Picasso.with(context).load(UrlApi.urlGambarTanaman+tanaman.getFotoTanaman()).into(((ViewHolder)holder).imageTanaman);
         holder.namaTanaman.setText(tanaman.getNamaTanaman());

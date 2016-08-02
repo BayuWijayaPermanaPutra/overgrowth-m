@@ -23,6 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
+
+import id.overgrowth.fragment.HomeFragment;
+import id.overgrowth.fragment.ListTanamanUserFragment;
 import id.overgrowth.utility.InternetCheck;
 import id.overgrowth.utility.OkHttpRequest;
 import id.overgrowth.utility.SessionManager;
@@ -34,7 +37,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
-    Toolbar mToolbar;
+    private Toolbar mToolbar;
     private String idUser;
     private SessionManager session;
     private HashMap<String, String> user;
@@ -143,8 +146,8 @@ public class MainActivity extends AppCompatActivity {
             OkHttpRequest.postDataToServer(UrlApi.urlTanamanUser, requestBody).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e("Error : ", e.getMessage());
                     Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    finish();
                 }
 
                 @Override

@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by bayu_wpp on 5/23/2016.
  */
-public class MTanaman {
+public class Tanaman {
     private int idtanaman;
     private String namatanaman;
     private String jenistanaman;
@@ -15,7 +15,7 @@ public class MTanaman {
     private String caramenanam;
     private String cocokdimusim;
 
-    public MTanaman(int idtanaman, String namatanaman, String jenistanaman, int lamapanen, String deskripsi, String fototanaman, String caramenanam, String cocokdimusim) {
+    public Tanaman(int idtanaman, String namatanaman, String jenistanaman, int lamapanen, String deskripsi, String fototanaman, String caramenanam, String cocokdimusim) {
         this.idtanaman = idtanaman;
         this.namatanaman = namatanaman;
         this.jenistanaman = jenistanaman;
@@ -26,7 +26,7 @@ public class MTanaman {
         this.cocokdimusim = cocokdimusim;
     }
 
-    public MTanaman() {
+    public Tanaman() {
 
     }
 

@@ -3,7 +3,7 @@ package id.overgrowth.model;
 /**
  * Created by bayu_wpp on 7/20/2016.
  */
-public class MTanamanUser {
+public class TanamanUser {
     private int idTanamanUser;
     private int idTanaman;
     private String namaTanaman;
@@ -16,7 +16,7 @@ public class MTanamanUser {
     private String waktuMenanam;
     private String terakhirDiSiram;
 
-    public MTanamanUser(int idTanamanUser, int idTanaman, String namaTanaman, String jenisTanaman, int lamaPanen, String deskripsiTanaman, String caraMenanam, String fotoTanaman, String cocokDiMusim, String waktuMenanam, String terakhirDiSiram) {
+    public TanamanUser(int idTanamanUser, int idTanaman, String namaTanaman, String jenisTanaman, int lamaPanen, String deskripsiTanaman, String caraMenanam, String fotoTanaman, String cocokDiMusim, String waktuMenanam, String terakhirDiSiram) {
         this.idTanamanUser = idTanamanUser;
         this.idTanaman = idTanaman;
         this.namaTanaman = namaTanaman;
@@ -30,7 +30,7 @@ public class MTanamanUser {
         this.terakhirDiSiram = terakhirDiSiram;
     }
 
-    public MTanamanUser() {
+    public TanamanUser() {
 
     }
 

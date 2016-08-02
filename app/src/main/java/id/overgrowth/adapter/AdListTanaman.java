@@ -16,18 +16,18 @@ import java.util.ArrayList;
 
 import id.overgrowth.DetailTanamanPilihActivity;
 import id.overgrowth.R;
-import id.overgrowth.model.MTanaman;
+import id.overgrowth.model.Tanaman;
 import id.overgrowth.utility.UrlApi;
 
 /**
  * Created by bayu_wpp on 5/28/2016.
  */
 public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder> {
-    private ArrayList<MTanaman> arrayBuah;
+    private ArrayList<Tanaman> arrayTanaman;
     private Context context;
 
-    public AdListTanaman(ArrayList<MTanaman> arrayBuah, Context context) {
-        this.arrayBuah = arrayBuah;
+    public AdListTanaman(ArrayList<Tanaman> arrayBuah, Context context) {
+        this.arrayTanaman = arrayBuah;
         this.context = context;
     }
 
@@ -39,7 +39,7 @@ public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder
 
     @Override
     public void onBindViewHolder(AdListTanaman.ViewHolder holder, int position) {
-        MTanaman tanaman = arrayBuah.get(position);
+        Tanaman tanaman = arrayTanaman.get(position);
         Context context = ((ViewHolder) holder).imageBuah.getContext();
         Picasso.with(context).load(UrlApi.urlGambarTanaman+tanaman.getFototanaman()).into(((ViewHolder)holder).imageBuah);
         holder.namaBuah.setText(tanaman.getNamatanaman());
@@ -47,7 +47,7 @@ public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder
 
     @Override
     public int getItemCount() {
-        return arrayBuah.size();
+        return arrayTanaman.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -66,8 +66,8 @@ public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder
                 @Override
                 public void onClick(View view) {
                     intent[0] = new Intent(view.getContext(), DetailTanamanPilihActivity.class);
-                    DetailTanamanPilihActivity.id_tanaman = arrayBuah.get(getAdapterPosition()).getIdtanaman();
-                    b.putInt("id_tanaman",arrayBuah.get(getAdapterPosition()).getIdtanaman());
+                    DetailTanamanPilihActivity.id_tanaman = arrayTanaman.get(getAdapterPosition()).getIdtanaman();
+                    b.putInt("id_tanaman",arrayTanaman.get(getAdapterPosition()).getIdtanaman());
                     intent[0].putExtras(b);
                     context.startActivity(intent[0]);
                 }
@@ -76,8 +76,8 @@ public class AdListTanaman extends RecyclerView.Adapter<AdListTanaman.ViewHolder
                 @Override
                 public boolean onLongClick(View view) {
                     intent[0] = new Intent(view.getContext(),DetailTanamanPilihActivity.class);
-                    DetailTanamanPilihActivity.id_tanaman = arrayBuah.get(getAdapterPosition()).getIdtanaman();
-                    b.putInt("id_tanaman",arrayBuah.get(getAdapterPosition()).getIdtanaman());
+                    DetailTanamanPilihActivity.id_tanaman = arrayTanaman.get(getAdapterPosition()).getIdtanaman();
+                    b.putInt("id_tanaman",arrayTanaman.get(getAdapterPosition()).getIdtanaman());
                     intent[0].putExtras(b);
                     context.startActivity(intent[0]);
                     return true;

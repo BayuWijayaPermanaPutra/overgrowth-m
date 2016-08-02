@@ -40,12 +40,12 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     private static final int RC_SIGN_IN = 1;
-    GoogleSignInOptions gso;
-    GoogleApiClient mGoogleApiClient;
+    private GoogleSignInOptions gso;
+    private GoogleApiClient mGoogleApiClient;
     private SignInButton buttonSignIn;
     private String id_user,email,nama,url_foto;
-    SessionManager session;
-    Intent intent;
+    private SessionManager session;
+    private Intent intent;
     private ProgressDialog progressDialog;
     private RequestBody requestBody;
     private boolean statusProgressDialog;
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        Toast.makeText(LoginActivity.this, connectionResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
