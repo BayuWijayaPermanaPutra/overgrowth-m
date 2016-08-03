@@ -196,7 +196,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             OkHttpRequest.postDataToServer(UrlApi.urlRegistrasi,requestBody).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e("Error : ", e.getMessage());
+                    e.printStackTrace();
                 }
 
                 @Override

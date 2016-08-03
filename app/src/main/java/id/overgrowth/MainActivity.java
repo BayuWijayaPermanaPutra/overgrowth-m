@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView titleToolbar;
     ProgressDialog progressDialog;
     private boolean statusProgressDialog;
+    AlertDialog.Builder popDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
             //alert.showAlertDialog(this,"Error","Tidak terkoneksi ke Internet!\nMohon nyalakan paket data atau koneksi WiFi!");
             showDialog();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        progressDialog.dismiss();
+
     }
 
     @Override
@@ -146,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             OkHttpRequest.postDataToServer(UrlApi.urlTanamanUser, requestBody).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                     finish();
                 }
 
@@ -199,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void showDialog() {
-        final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
+        popDialog = new AlertDialog.Builder(this);
         final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View Viewlayout = inflater.inflate(R.layout.dialog_coba_lagi,(ViewGroup) findViewById(R.id.layout_dialog_coba_lagi));
         popDialog.setIcon(R.mipmap.ic_alert);

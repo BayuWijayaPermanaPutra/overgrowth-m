@@ -1,15 +1,11 @@
 package id.overgrowth.fragment;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -21,16 +17,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
-import com.github.clans.fab.FloatingActionMenu;
-import com.github.clans.fab.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,7 +57,6 @@ public class ListTanamanUserFragment extends Fragment {
     private HashMap<String, String> user;
     private String idUser;
     private SessionManager session;
-    private FloatingActionMenu fam;
     private FloatingActionButton fab1;
     private FloatingActionButton fab2;
     private FrameLayout frameListTUser;
@@ -109,20 +99,35 @@ public class ListTanamanUserFragment extends Fragment {
             getTanamanUser();
         }
 
-        fam.setOnClickListener(new View.OnClickListener() {
+        final FrameLayout frameLayout = (FrameLayout) rootView.findViewById(R.id.frame_layout_tanaman_user);
+        frameLayout.getBackground().setAlpha(0);
+        final FloatingActionsMenu fabMenu = (FloatingActionsMenu) rootView.findViewById(R.id.material_design_android_floating_action_menu);
+        fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
-            public void onClick(View view) {
-                if (fam.isOpened()){
-                    frameListTUser.setBackgroundColor(getResources().getColor(R.color.white));
-                } else {
-                    frameListTUser.setBackgroundColor(Color.TRANSPARENT);
-                }
+            public void onMenuExpanded() {
+                frameLayout.getBackground().setAlpha(240);
+                frameLayout.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        fabMenu.collapse();
+                        return true;
+                    }
+                });
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+                frameLayout.getBackground().setAlpha(0);
+                frameLayout.setOnTouchListener(null);
             }
         });
+
+
 
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fabMenu.collapse();
                 intent = new Intent(getActivity(),PilihKategoriActivity.class);
                 startActivity(intent);
             }
@@ -131,6 +136,7 @@ public class ListTanamanUserFragment extends Fragment {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fabMenu.collapse();
                 intent = new Intent(getActivity(),MulaiTanamPilihanActivity.class);
                 startActivity(intent);
             }
@@ -141,7 +147,6 @@ public class ListTanamanUserFragment extends Fragment {
 
     private void initView(View rootView) {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewtanamanuser);
-        fam = (FloatingActionMenu) rootView.findViewById(R.id.material_design_android_floating_action_menu);
         fab1 = (FloatingActionButton) rootView.findViewById(R.id.material_design_floating_action_menu_item1);
         fab2 = (FloatingActionButton) rootView.findViewById(R.id.material_design_floating_action_menu_item2);
 
@@ -156,8 +161,6 @@ public class ListTanamanUserFragment extends Fragment {
     private void getTanamanUser(){
         Log.i("iduser:",idUser);
 
-
-
         requestBody = new FormBody.Builder()
                 .add("id_user", idUser)
                 .build();
@@ -166,7 +169,7 @@ public class ListTanamanUserFragment extends Fragment {
             OkHttpRequest.postDataToServer(UrlApi.urlTanamanUser, requestBody).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e("Error : ", e.getMessage());
+                    e.printStackTrace();
                 }
 
                 @Override

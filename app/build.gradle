@@ -7,9 +7,9 @@ android {
 
     defaultConfig {
         applicationId "id.overgrowth"
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 22
-        versionCode 4
+        versionCode 3
         versionName "1.0"
     }
     buildTypes {
@@ -33,4 +33,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.android.support:support-v4:22.2.1'
     compile 'com.github.clans:fab:1.6.2'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
 }
